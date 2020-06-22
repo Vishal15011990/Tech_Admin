@@ -1,0 +1,179 @@
+﻿@model Tech_Admin.Models.DbOperation.Employee
+
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<a href="#" class="txt fa fa-user fa-2x"> Register User</a>
+<style>
+    .spanclass {
+        /* top: 10px; */
+        position: relative;
+    }
+
+    span {
+        position: relative;
+        color: red;
+        margin-top: 20px;
+    }
+
+    a.txt {
+        cursor: pointer;
+        text-decoration: none;
+        margin-top: 50px;
+    }
+
+        a.txt:hover {
+            background: red;
+            box-shadow: 0 0 10px #ff0000,0 0 30px #ff0000,0 0 60px #ff0000,0 0 200px #ff0000;
+            border-radius: 3px;
+        }
+
+    .form-group {
+        height: 70px;
+    }
+
+    .Loader {
+        width: 100%;
+        height: 100%;
+        position: fixed;
+        z-index: 9999;
+        text-align: center;
+        background: rgba(0,0,0,0.25);
+        display: none;
+        margin-top: 100px;
+        margin-left: -200px;
+    }
+
+    img, .darkmode-ignore {
+        isolation: auto;
+        display: inline-block;
+        /* background-blend-mode: color-burn; */
+        background: linear-gradient(360deg, black, transparent);
+        border-radius: 10px;
+    }
+</style>
+
+<div style="padding:1px;">
+
+    <div class="row-lg-12">
+        <div class="col-lg-6">
+            <div class="form-group">
+                <label class="control-label col-md-4">Name</label>
+                <div class="col-md-10">
+                    <input type="text" class="form-control" id="TxtName" />
+                </div>
+                <div class="spanclass col-md-10">
+                    <span id="lblName">&nbsp;</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-4">Password</label>
+                <div class="col-md-10">
+                    <input type="password" class="form-control" id="TxtPassword" />
+                </div>
+                <div class="spanclass col-md-10">
+                    <span id="lblPassword">&nbsp;</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10" style=" position: relative; top: 10px;">
+            <input type="button" value="Login" class="btn btn-primary" id="btnLogin" @*onclick="BtnClick()"*@ style="width:500px; @*left:-100px; position:relative;*@" />
+        </div>
+    </div>
+
+</div>
+
+<div class="Loader" id="loader">
+    <img src="~/Content/Loader/loader2.gif">
+</div>
+<div>
+
+    @Html.Hidden("RedirectToIndex", Url.Action("Index", "Employee_Master"))
+</div>
+
+
+
+
+
+
+    <script>
+
+    $(document).ready(function () {
+        $(document).ajaxStart(function () {
+            $("#loader").css("display", "block");
+        });
+
+        $(document).ajaxComplete(function () {
+            $("#loader").css("display", "none");
+        });
+
+        $("#TxtName").on('focusout', function () {
+            var Name = $("#TxtName").val();
+            if (Name == "") {
+                $("#lblName").html("Please Enter Valid Name").show().fadeOut(2000);
+            }
+        });
+
+        $("#TxtPassword").on('focusout', function () {
+            var Password = $("#TxtPassword").val();
+            if (Password == "") {
+                $("#lblPassword").html("Please enter Password").show().fadeOut(2000);
+            }
+        });
+
+
+        $("#btnLogin").on("click", function () {
+            var name = $("#TxtName").val();
+            var password = $("#TxtPassword").val();
+
+            var model = {
+                Name: name,
+                Password: password
+            }
+
+
+            $("#TxtName").on('focusout', function () {
+                var Name = $("#TxtName").val();
+                if (Name == "") {
+                    $("#lblName").html("Please Enter Valid Name").show().fadeOut(2000);
+                }
+            });
+
+            $("#TxtPassword").on('focusout', function () {
+                var Password = $("#TxtPassword").val();
+                if (Password == "") {
+                    $("#lblPassword").html("Please enter Password").show().fadeOut(2000);
+                }
+            });
+
+            if (name == "") {
+                $("#lblName").html("Please Enter Valid Name").show().fadeOut(2000);
+            }
+            else if (password == "") {
+                $("#lblPassword").html("Please enter Password").show().fadeOut(2000);
+            }
+            else {
+                $.ajax({
+                    type: "POST",
+                    data: model,
+                    url: '@Url.Action("Login","Home")',
+                    success: function (response) {
+                        if (response) {
+                            window.location.href = '@Url.Action("Index","Employee_Master")';
+                        }
+                        else {
+                            alertify.alert("Sorry No Data Found");
+                        }
+                    }
+                });
+            }
+        })
+    });
+    </script>
+
+

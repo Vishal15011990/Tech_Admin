@@ -4,8 +4,48 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - My ASP.NET Application</title>
-    @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
+
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <link href="~/Content/Site.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/Css/font-awesome.min.css" rel="stylesheet" />
+    <script src="~/Scripts/bootstrap.min.js"></script>
+
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    @*@Scripts.Render("~/bundles/modernizr")*@
+
+    <link href="~/Content/Css/sweetalert.css" rel="stylesheet" />
+    <script src="~/Content/JS/jquery.cookie.js"></script>
+
+    <script src="~/Content/Jqgrid/jquery-ui.js"></script>
+    <link href="~/Content/Jqgrid/jquery-ui.css" rel="stylesheet" />
+
+    <script src="~/Content/JS/moment.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <link href="~/Content/Css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+    <script src="~/Content/JS/bootstrap-datetimepicker.min.js"></script>
+
+    <link href="~/Content/Css/jquery-confirm.min.css" rel="stylesheet" />
+    <script src="~/Content/JS/jquery-confirm.min.js"></script>
+
+
+    <link href="~/Content/alertifyjs/css/alertify.min.css" rel="stylesheet" />
+    <link href="~/Content/alertifyjs/css/themes/semantic.min.css" rel="stylesheet" />
+    <link href="~/Content/alertifyjs/css/themes/default.min.css" rel="stylesheet" />
+    <script src="~/Content/alertifyjs/alertify.min.js"></script>
+
+    <script src="~/Content/JS/sweetalert.min.js"></script>
+
+    <style>
+        body.darkmode--activated {
+            color: darkorange;
+        }
+
+            body.darkmode--activated span {
+                color: lightseagreen;
+            }
+    </style>
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -20,9 +60,32 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li><a> Welcome - @User.Identity.Name </a></li>
+                        <li> @Html.ActionLink("Log out", "Logout", "Home") </li>
+                        if (User.IsInRole("Admin"))
+                        {
+                            @*<li>
+                                    <a href="@Url.Action("Index","Employee_Master")" class="navbar-brand">
+                                        <img src="~/Content/Img/logo.png" alt="No Img" style="height:50px; width:50px;" />
+                                    </a>
+                                </li>*@
+                            <li> @Html.ActionLink("Create Role", "Role", "Home") </li>
+                            <li></li>
+                            <li> @Html.ActionLink("Create", "Create", "Employee_Master") </li>
+                            <li></li>
+                            <li> @Html.ActionLink("Show Record", "Index", "Employee_Master") </li>
+                        }
+                    }
+                    else
+                    {
+                        <li>
+                            <a>
+                                @Html.ActionLink("Log In", "Login", "Home")
+                            </a>
+                        </li>
+                    }
                 </ul>
             </div>
         </div>
@@ -35,8 +98,14 @@
         </footer>
     </div>
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
+    <script src="~/Content/JS/darkmode-js.min.js"></script>
+    <script>
+        new Darkmode({
+            bottom: '32px',
+            right: '32px',
+            time: '0.3s',
+            label: '🌓'
+        }).showWidget();
+    </script>
 </body>
 </html>

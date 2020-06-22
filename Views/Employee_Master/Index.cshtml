@@ -1,0 +1,221 @@
+﻿@model IEnumerable<Tech_Admin.Models.Employee_Master>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<a href="#" class=" fa fa-user fa-4x clx">User Record</a>
+
+<link href="~/Content/DataTables/datatables.css" rel="stylesheet" />
+<script src="~/Content/DataTables/datatables.js"></script>
+
+<style>
+
+    a.txt {
+        cursor: pointer;
+        text-decoration: none;
+    }
+
+    a.clx {
+        cursor: pointer;
+        text-decoration: none;
+    }
+
+    div#mytable_wrapper {
+        position: relative;
+        margin-top: 10px;
+    }
+</style>
+
+<table class="table" id="mytable">
+    <thead>
+        <tr>
+            <th>
+                Name
+            </th>
+            <th>
+                Date_Of_Birth
+            </th>
+            <th>
+                Phone
+            </th>
+            <th>
+                Address
+            </th>
+            <th>
+                EmailId
+            </th>
+            <th>
+                Country
+            </th>
+            <th>
+                State
+            </th>
+            <th>
+                City
+            </th>
+            <th>
+                @if (User.IsInRole("Admin"))
+                {
+                    <label>Action</label>
+                }
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <a class="txt" value="@item.Name">@item.Name</a>
+                </td>
+                <td>
+                    <a class="txt" value="@item.Date_Of_Birth">@item.Date_Of_Birth</a>
+                </td>
+                <td>
+                    <a class="txt" value="@item.Phone">@item.Phone</a>
+                </td>
+                <td>
+                    <a class="txt" value="@item.Address">@item.Address</a>
+                </td>
+                <td>
+                    <a class="txt" value="@item.EmailId">@item.EmailId</a>
+                </td>
+
+
+                <td>
+                    <a class="txt" value="@item.Country_Info.Country_name">@item.Country_Info.Country_name</a>
+                </td>
+                <td>
+                    <a class="txt" value="@item.State_info.State_Name">@item.State_info.State_Name</a>
+                </td>
+                <td>
+                    <a class="txt" value="@item.City_Info.City_Name">@item.City_Info.City_Name</a>
+                </td>
+
+                <td>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <a class="fa fa-edit" href="@Url.Action("Edit","Employee_Master",new { id=item.EmpId})"></a>
+                        <a href="#" class="btnDelete fa fa-trash"></a><input type="hidden" value="@item.EmpId" />
+
+                    }
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div id="la">
+
+    The Pro_Admin License (MIT)
+
+    Copyright (c) 2020 Vishal Kumar
+
+    Permission is hereby granted, free of charge, to any person obtaining a copy
+    of this software and associated documentation files (the "Software"), to deal
+    in the Software without restriction, including without limitation the rights
+    to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+    copies of the Software, and to permit persons to whom the Software is
+    furnished to do so, subject to the following conditions:
+
+    The above copyright notice and this permission notice shall be included in all
+    copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+    AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+    SOFTWARE.
+
+</div>
+
+
+<script>
+    $("#la").hide();
+    //var pre = document.createElement('pre');
+    ////custom style.
+    //pre.style.maxHeight = "400px";
+    //pre.style.margin = "0";
+    //pre.style.padding = "24px";
+    //pre.style.whiteSpace = "pre-wrap";
+    //pre.style.textAlign = "justify";
+    //pre.appendChild(document.createTextNode($('#la').text()));
+    ////show as confirm
+    //alertify.confirm("License Agreement", pre, function () {
+    //    alertify.success('Accepted');
+    //}, function () {
+    //    alertify.error('Declined');
+    //}).set({ labels: { ok: 'Accept', cancel: 'Decline' }, padding: false }).set('closable', false).set('resizable', false).set('movable', false);
+</script>
+
+
+
+<script>
+            (function ($) {
+                if (!$.cookie("Login")) {
+                    swal("Welcome", "@User.Identity.Name !", "info")
+                    $.cookie("Login", "x");
+                    var pre = document.createElement('pre');
+                    //custom style.
+                    pre.style.maxHeight = "400px";
+                    pre.style.margin = "0";
+                    pre.style.padding = "24px";
+                    pre.style.whiteSpace = "pre-wrap";
+                    pre.style.textAlign = "justify";
+                    pre.appendChild(document.createTextNode($('#la').text()));
+                    //show as confirm
+                    alertify.confirm("License Agreement", pre, function () {
+                        alertify.success('Accepted');
+                    }, function () {
+                        alertify.error('Declined');
+                    }).set({ labels: { ok: 'Accept', cancel: 'Decline' }, padding: false }).set('closable', false).set('resizable', false).set('movable', false);
+
+                }
+            })(jQuery);
+    </script>
+
+
+<script>
+
+    $(document).ready(function () {
+
+        $("#mytable").DataTable();
+        $(".btnDelete").on("click", function () {
+            var id = $(this).next().val();
+            alertify.confirm('Are You Sure', 'To Delete !',
+                function () {
+                    alertify.success('Ok')
+                    $.ajax({
+                        type: "POST",
+                        url: '@Url.Action("Delete","Employee_Master")',
+                        data: { id: id },
+                        dataType: "json",
+                        success: function (response) {
+                            if (response) {
+                                alertify.alert('Successful', 'Record Deleted!',
+                                    function () {
+                                        alertify.success('Ok');
+                                        location.reload();
+                                    });
+                            }
+
+                            else {
+                                alertify.alert('Your Data Is Safe', 'Record Not Deleted!',
+                                    function () {
+                                        alertify.success('Ok');
+                                        location.reload();
+                                    });
+                            }
+                        }
+                    });
+                }
+                , function ()
+                {
+                    alertify.error('Cancel')
+                });
+        });
+    });
+</script>

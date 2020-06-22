@@ -1,0 +1,534 @@
+﻿@model Tech_Admin.Models.Employee_Master
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<a href="#" class=" fa fa-edit fa-4x clx">Edit Record</a>
+
+
+<style>
+
+    .spanclass {
+        /* top: 10px; */
+        position: relative;
+    }
+
+    span {
+        position: relative;
+        color: red;
+        margin-top: 20px;
+    }
+
+    a.clx {
+        cursor: pointer;
+        text-decoration: none;
+    }
+
+    .form-group {
+        height: 70px;
+    }
+</style>
+
+<hr />
+<div style="padding:10px;">
+    <div class="row">
+        <div class="col-lg-6">
+            <input type="hidden" id="empId" value="@Model.EmpId" />
+            <input type="hidden" id="createdBy" value="@Model.CreatedbY" />
+            <input type="hidden" id="createdon" value="@Model.Createdon" />
+            <input type="hidden" id="pwd" value="@Model.Password" />
+
+
+            <div class="form-group">
+                <label class="control-label col-md-4">User Name</label>
+                <div class="col-md-10">
+                    <input type="text" class="form-control" id="TxtName" readonly value="@Model.Name" />
+                </div>
+                <div class="spanclass col-md-10">
+                    <br /><span id="lblName">&nbsp;</span>
+                </div>
+            </div>
+
+            @*<div class="form-group">
+                    <label class="control-label col-md-4">Password</label>
+                    <div class="col-md-10">
+                        <input type="password" class="form-control" id="TxtPassword" value="@Model.Password" />
+                    </div>
+                    <div>
+                        <span class="span_class" id="lblPassword">&nbsp;</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-4">Confirm Password</label>
+                    <div class="col-md-10">
+                        <input type="password" class="form-control" id="TxtCnfPassword" onchange="onchangeCnfpwd()" value="@Model.Password" />
+                    </div>
+                    <div>
+                        &nbsp;&nbsp;&nbsp;&nbsp; <span class="span" id="lblCnfPassword">&nbsp;</span>
+                    </div>
+                </div>*@
+            <div class="form-group">
+                <label class="control-label col-md-4" for="datepicker">Date Of Birth</label>
+                <div class="col-md-10">
+                    <input type="text" class="form-control" id="datepicker" value="@Model.Date_Of_Birth" />
+                </div>
+                <div class="spanclass col-md-10">
+                    &nbsp;&nbsp;&nbsp;&nbsp; <span id="lblDob">&nbsp;</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-4">Phone</label>
+                <div class="col-md-10">
+                    <input type="tel" class="form-control" id="TxtPhone" maxlength="10" value="@Model.Phone" />
+                </div>
+                <div class="spanclass col-md-10">
+                    &nbsp;&nbsp;&nbsp;&nbsp;   <span id="lblPhone">&nbsp;</span>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label class="control-label col-md-4">Address</label>
+                <div class="col-md-10">
+                    <input type="text" class="form-control" id="TxtAddress" value="@Model.Address" />
+                </div>
+                <div class="spanclass col-md-10">
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span id="lblAddress">&nbsp;</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+
+            <div class="form-group">
+                <label class="control-label col-md-4">Country</label>
+                <div class="col-md-10">
+                    @Html.DropDownList("Country", null, htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Country, "", new { @class = "text-danger" })
+                </div>
+                <div>
+                    &nbsp;&nbsp;&nbsp;&nbsp;  <span class="span" id="lblCountry">&nbsp;</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-4">State</label>
+                <div class="col-md-10">
+                    @Html.DropDownList("State", null, htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
+                </div>
+                <div class="spanclass col-md-10">
+                    &nbsp;&nbsp;&nbsp;&nbsp;   <span id="lblState">&nbsp;</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-4">City</label>
+                <div class="col-md-10">
+                    @Html.DropDownList("City", null, htmlAttributes: new { @class = "form-control" })
+
+                </div>
+                <div class="spanclass col-md-10">
+                    &nbsp;&nbsp;&nbsp;&nbsp;   <span id="lblCity">&nbsp;</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-4">Email</label>
+                <div class="col-md-10">
+                    <input type="email" class="form-control" id="TxtEmail" value="@Model.EmailId" onblur="EmailIdValidate()" />
+                </div>
+                <div class="spanclass col-md-10">
+                    &nbsp;&nbsp;&nbsp;&nbsp;  <span id="lblEmail">&nbsp;</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-4">Role</label>
+                <div class="col-md-10">
+                    <select class="form-control" id="TxtRole">
+                        <option value="0">---Select Role---</option>
+                        @foreach (var item in ViewBag.RoleId1)
+                        {
+                            <option value="@item.RoleId" selected>@item.RoleName</option>
+                        }
+                    </select>
+                </div>
+                <div class="spanclass col-md-10">
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span id="lblRole">&nbsp;</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="form-group">
+    <div class="col-md-offset-2 col-md-10">
+        <input type="button" value="Update" class="btn btn-primary" id="btnCreate" style="width:500px; left:100px; position:relative;" />
+    </div>
+</div>
+
+
+<div>
+    @Html.Hidden("RedirectToIndex", Url.Action("Index", "Employee_Master"))
+</div>
+
+
+    <script>
+
+        //function onchangeCnfpwd() {
+        //    var CnfPassword = $("#TxtCnfPassword").val();
+        //    var Password = $("#TxtPassword").val();
+        //    if (Password != CnfPassword || CnfPassword != Password) {
+        //        $("#lblCnfPassword").html("Enter Password Carefully Password Mismathced").show().fadeOut(2000);
+        //    }
+
+        //}
+
+        function EmailIdValidate() {
+            var emailId = $("#TxtEmail").val();
+            var regex = /^([\w-\.]+)@@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+            if (!regex.test(emailId)) {
+                $("#lblEmail").html("Email Id Is Not Valid").show().fadeToggle(1000);
+            }
+            else {
+                return true;
+            }
+
+        }
+    </script>
+
+
+    <script>
+    $(document).ready(function () {
+        $("#datepicker").datetimepicker({
+            //format: 'DD-MM-YYYY'
+        });
+
+        var Regexname = /^([a-zA-Z]{3,16})$/;
+        $("#TxtName").on('keypress keydown keyup', function () {
+            if (!$(this).val().match(Regexname)) {
+                // there is a mismatch, hence show the error message
+                $("#lblName").html("User Name Must Contain Alphanumerical").show().fadeOut(1000);
+            }
+            else {
+                // else, do not display message
+                return true;
+            }
+        });
+
+
+        $("#TxtPhone").keypress(function (e) {
+            //if the letter is not digit then display error and don't type anything
+            if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+                //display error message
+                $("#lblPhone").html("Digits Only").show().fadeOut("slow");
+                return false;
+            }
+        });
+
+
+
+        $("#Country").change(function () {
+            var CountryId = $(this).val();
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("GetState","Employee_Master")',
+                data: { 'Cid': CountryId },
+                success: function (data) {
+                    var state = $("#State");
+                    state.empty();
+                    state.append($('<option/>', {
+                        value: 0,
+                        text: "---Select State---"
+                    }));
+                    $.each(data, function (index, item) {
+                        state.append($('<option/>', {
+                            value: item.Value,
+                            text: item.Text
+                        }));
+                    });
+                }
+            });
+        });
+
+
+
+        $("#State").change(function () {
+            var StateId = $(this).val();
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("GetCity","Employee_Master")',
+                data: { 'Sid': StateId },
+                success: function (data) {
+                    var state = $("#City");
+                    state.empty();
+                    state.append($('<option/>', {
+                        value: 0,
+                        text: "---Select City---"
+                    }));
+                    $.each(data, function (index, item) {
+                        state.append($('<option/>', {
+                            value: item.Value,
+                            text: item.Text
+                        }));
+                    });
+                }
+            });
+        });
+
+
+        @*$("#TxtName").on('focusout', function () {
+            var Name = $("#TxtName").val();
+            if (Name == "") {
+                $("#lblName").html("Please Enter Valid Name").show().fadeOut(2000);
+            }
+            else
+            {
+                $.ajax({
+                    type: "GET",
+                    data: { name: Name },
+                    url: '@Url.Action("Nameavailability","Employee_Master")',
+                    success: function (data) {
+                        if (data != "success") {
+                            $("#lblName").html("Already Present Kindly Choose Another").show().fadeOut(2000);
+                            $("#TxtName").css("border-color","Red");
+                        }
+                        else {
+                            $("#lblName").html('<font color="Green">Username Is Available</font>').show().fadeOut(2000);
+                            $("#TxtName").css("border-color", "Green");
+                        }
+                    }
+                });
+            }
+        });*@
+
+        $("#TxtPassword").on('focusout', function () {
+            var Password = $("#TxtPassword").val();
+            if (Password == "") {
+                $("#lblPassword").html("Please enter Password").show().fadeOut(2000);
+            }
+        });
+
+
+        $("#TxtCnfPassword").on('blur',function () {
+            var CnfPassword = $("#TxtCnfPassword").val();
+            var Password = $("#TxtPassword").val();
+            if (CnfPassword == "") {
+                $("#lblCnfPassword").html("Enter Password Carefully").show().fadeOut(2000);
+            }
+        });
+
+
+
+
+        $("#datepicker").on('focusout', function () {
+            var Dob = $("#datepicker").val();
+            if (Dob == "") {
+                $("#lblDob").html("Please enter Dob").show().fadeOut(2000);
+            }
+        });
+
+
+ $("#TxtPhone").on('focusout', function () {
+            var phone = $("#TxtPhone").val();
+            if (phone == "" && phone != 10) {
+                $("#lblPhone").html("Please Enter Tour 10digit Phone").show().fadeOut(2000);
+            }
+            else
+            {
+                $.ajax({
+                    type: 'Get',
+                    data: {
+                        phone: phone
+                    },
+                    url: '@Url.Action("Phoneavailability", "Employee_Master")',
+                    success: function (data) {
+                        if (data != "success") {
+                            $("#lblPhone").html("Already In Record Re-Enter The Number").show().fadeOut(2000);
+                            $("#TxtPhone").css("border-color", "Red");
+                        }
+                        else {
+                            $("#lblPhone").html("");
+                            $("#TxtPhone").css("border-color", "Green");
+                        }
+                    }
+                });
+            }
+        });
+
+
+        $("#TxtAddress").on('focusout', function () {
+            var Address = $("#TxtAddress").val();
+            if (Address == "") {
+                $("#lblAddress").html("Please enter Address").show().fadeOut(2000);
+            }
+        });
+
+        $("#Country").on('focusout', function () {
+            var country = $("#Country").val();
+            if (country == 0) {
+                $("#lblCountry").html("Please enter Country").show().fadeOut(2000);
+            }
+        });
+
+        $("#TxtState").on('focusout', function () {
+            var State = $("#TxtState").val();
+            if (State == 0) {
+                $("#lblState").html("Please enter State").show().fadeOut(2000);
+            }
+        });
+
+        $("#TxtCity").on('focusout', function () {
+            var City = $("#TxtCity").val();
+            if (City == 0) {
+                $("#lblCity").html("Please enter City").show().fadeOut(2000);
+            }
+        });
+
+        $("#TxtEmail").on('focusout', function () {
+            var Email = $("#TxtEmail").val();
+            if (Email == "") {
+                $("#lblEmail").html("Please enter Email").show().fadeOut(2000);
+            }
+             else
+            {
+                $.ajax({
+                    type: 'Get',
+                    data: { emailId: Email },
+                    url: '@Url.Action("Emailavailability", "Employee_Master")',
+                    success: function (data) {
+                        if (data != "success") {
+                            $("#lblEmail").html("Already In Records Re-enter Email").show().fadeOut(2000);
+                            $("#TxtEmail").css("border-color", "Red");
+                        }
+                        else {
+                            $("#lblEmail").html(" ");
+                            $("#TxtEmail").css("border-color", "Green");
+                        }
+                    }
+                });
+            }
+        });
+
+        $("#TxtRole").on('focusout', function () {
+            var Role = $("#TxtRole").val();
+            if (Role == 0) {
+                $("#lblRole").html("Please enter Role").show().fadeOut(2000);
+            }
+        });
+
+
+        $("#btnCreate").on("click", function () {
+
+            var id = $("#empId").val();
+        var name = $("#TxtName").val();
+        var password = $("#TxtPassword").val();
+        var CnfPassword = $("#TxtCnfPassword").val();
+        var dob = $("#datepicker").val();
+        var phone = $("#TxtPhone").val();
+        var address = $("#TxtAddress").val();
+        var country = $("#Country").val();
+        var state = $("#State").val();
+        var city = $("#City").val();
+        var email = $("#TxtEmail").val();
+            var role = $("#TxtRole").val();
+            var createby = $("#createdBy").val();
+            var createon = $("#createdon").val();
+
+
+            var model = {
+                EmpId: id,
+                Name: name,
+                Date_Of_Birth: dob,
+                Phone: phone,
+                Address: address,
+                Country: country,
+                State: state,
+                City: city,
+                EmailId: email,
+                RoleId: role,
+                Password: password,
+                CreatedbY: createby,
+                Createdon: createon
+
+            }
+            //var json = JSON.stringify(model);
+
+            if (name == "") {
+                $("#lblName").html("Please Enter Valid Name").show().fadeOut(2000);
+            }
+            else if (password == "") {
+                $("#lblPassword").html("Please enter Password").show().fadeOut(2000);
+            }
+            else if (CnfPassword == "") {
+                $("#lblCnfPassword").html("Please enter confirm password").show().fadeOut(2000);
+            }
+            else if (phone == "") {
+                $("#lblPhone").html("Please enter Phone").show().fadeOut(2000);
+            }
+            else if (dob == "") {
+                $("#lblDob").html("Please enter Dob").show().fadeOut(2000);
+            }
+            else if (address == "") {
+                $("#lblAddress").html("Please enter Address").show().fadeOut(2000);
+            }
+
+            else if (city == 0) {
+                $("#lblCity").html("Please enter City").show().fadeOut(2000);
+            }
+            else if (state == 0) {
+                $("#lblState").html("Please enter State").show().fadeOut(2000);
+            }
+            else if (country == 0) {
+                $("#lblCountry").html("Please enter Country").show().fadeOut(2000);
+            }
+            else if (email == "") {
+                $("#lblEmail").html("Please enter Email").show().fadeOut(2000);
+            }
+
+            else if (role == 0) {
+                $("#lblRole").html("Please enter Role").show().fadeOut(2000);
+            }
+            else {
+
+                $.ajax({
+                    type: "POST",
+                    data: model,
+                    url: '@Url.Action("Edit", "Employee_Master")',
+                    success: function (response) {
+                        $.alert({
+                            title: 'Success !',
+                            content: 'Record Updated successfully..!',
+                            icon: 'fa fa-rocket',
+                            animation: 'scale',
+                            closeAnimation: 'scale',
+                            buttons: {
+                                okay: {
+                                    text: 'Okay',
+                                    btnClass: 'btn-wide mb-2 mr-2 btn btn-primary form-control',
+                                    action: function (event, ui) {
+                                        $(this).remove();
+                                        var url = $("#RedirectToIndex").val();
+                                        location.href = url;
+                                    }
+                                }
+                            }
+                        });
+                    },cancel: function () {
+                        swal("Data Not added")
+                    }
+                });
+            }
+        });
+    });
+
+    </script>
+
+
+
+
