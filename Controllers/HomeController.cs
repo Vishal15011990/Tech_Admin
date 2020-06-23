@@ -7,8 +7,10 @@ using System.Web.Security;
 using Tech_Admin.Models.DbOperation;
 using Tech_Admin.Models;
 
+
 namespace Tech_Admin.Controllers
 {
+    
     public class HomeController : Controller
     {
         // GET: Home
@@ -45,13 +47,13 @@ namespace Tech_Admin.Controllers
         }
 
 
-
+        [Authorize(Roles = "Admin")]
         public ActionResult Role()
         {
             return View();
         }
 
-
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public ActionResult Role(RoleM roleM)
         {

@@ -4,7 +4,7 @@
     ViewBag.Title = "Index";
 }
 
-<a href="#" class=" fa fa-user fa-4x clx">User Record</a>
+<a href="#" class="glyphicon glyphicon-record clx">User Record</a>
 
 <link href="~/Content/DataTables/datatables.css" rel="stylesheet" />
 <script src="~/Content/DataTables/datatables.js"></script>
@@ -24,6 +24,9 @@
     div#mytable_wrapper {
         position: relative;
         margin-top: 10px;
+    }
+    a.glyphicon.glyphicon-record.clx {
+        font-size: 50px;
     }
 </style>
 
@@ -96,8 +99,8 @@
                 <td>
                     @if (User.IsInRole("Admin"))
                     {
-                        <a class="fa fa-edit" href="@Url.Action("Edit","Employee_Master",new { id=item.EmpId})"></a>
-                        <a href="#" class="btnDelete fa fa-trash"></a><input type="hidden" value="@item.EmpId" />
+                        <a class="glyphicon glyphicon-edit" href="@Url.Action("Edit","Employee_Master",new { id=item.EmpId})"></a>
+                        <a href="#" class="btnDelete glyphicon glyphicon-trash"></a><input type="hidden" value="@item.EmpId" />
 
                     }
 
