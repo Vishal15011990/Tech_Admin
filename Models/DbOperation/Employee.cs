@@ -47,5 +47,6 @@ namespace Tech_Admin.Models.DbOperation
         public StateModel StateMd { get; set; }
         public CityModel CityMd { get; set; }
         public RoleM RoleMd { get; set; }
+        public FileUpload FileuploadMd { get; set; }
     }
 }

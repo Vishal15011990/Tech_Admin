@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="EmployeeModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="EmployeeModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="City_Info">
           <Key>
             <PropertyRef Name="City_Id" />
@@ -41,6 +41,23 @@
           <Property Name="CreatedbY" Type="uniqueidentifier" />
           <Property Name="Createdon" Type="datetime" />
           <Property Name="Password" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="File_Upload">
+          <Key>
+            <PropertyRef Name="UploadId" />
+          </Key>
+          <Property Name="UploadId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="File_name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="File_size" Type="bigint" Nullable="false" />
+          <Property Name="File_Path" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="IsActive" Type="bit" />
+          <Property Name="IsDelete" Type="bit" />
+          <Property Name="CreatedBy" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="CreatedOn" Type="datetime" Nullable="false" />
+          <Property Name="ModifiedBy" Type="uniqueidentifier" />
+          <Property Name="ModifiedOn" Type="datetime" />
+          <Property Name="UserRefId" Type="uniqueidentifier" />
+          <Property Name="File_Type" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="RoleMaster">
           <Key>
@@ -137,6 +154,7 @@
           <EntitySet Name="City_Info" EntityType="Self.City_Info" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Country_Info" EntityType="Self.Country_Info" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Employee_Master" EntityType="Self.Employee_Master" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="File_Upload" EntityType="Self.File_Upload" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RoleMaster" EntityType="Self.RoleMaster" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="State_info" EntityType="Self.State_info" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK__Employee___RoleI__17036CC0" Association="Self.FK__Employee___RoleI__17036CC0">
@@ -164,8 +182,7 @@
             <End Role="State_info" EntitySet="State_info" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="EmployeeModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -339,7 +356,25 @@
             <End Role="State_info" EntitySet="State_info" />
             <End Role="Employee_Master" EntitySet="Employee_Master" />
           </AssociationSet>
+          <EntitySet Name="File_Upload" EntityType="EmployeeModel.File_Upload" />
         </EntityContainer>
+        <EntityType Name="File_Upload">
+          <Key>
+            <PropertyRef Name="UploadId" />
+          </Key>
+          <Property Name="UploadId" Type="Guid" Nullable="false" />
+          <Property Name="File_name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="File_size" Type="Int64" Nullable="false" />
+          <Property Name="File_Path" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="IsDelete" Type="Boolean" />
+          <Property Name="CreatedBy" Type="Guid" Nullable="false" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModifiedBy" Type="Guid" />
+          <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
+          <Property Name="UserRefId" Type="Guid" />
+          <Property Name="File_Type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -404,6 +439,24 @@
                 <ScalarProperty Name="State_Id" ColumnName="State_Id" />
                 <ScalarProperty Name="State_Name" ColumnName="State_Name" />
                 <ScalarProperty Name="Country_RefId" ColumnName="Country_RefId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="File_Upload">
+            <EntityTypeMapping TypeName="EmployeeModel.File_Upload">
+              <MappingFragment StoreEntitySet="File_Upload">
+                <ScalarProperty Name="File_Type" ColumnName="File_Type" />
+                <ScalarProperty Name="UserRefId" ColumnName="UserRefId" />
+                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="File_Path" ColumnName="File_Path" />
+                <ScalarProperty Name="File_size" ColumnName="File_size" />
+                <ScalarProperty Name="File_name" ColumnName="File_name" />
+                <ScalarProperty Name="UploadId" ColumnName="UploadId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

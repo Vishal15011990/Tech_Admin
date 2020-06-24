@@ -4,32 +4,88 @@
     ViewBag.Title = "Role";
 }
 
-<h2>Role</h2>
+<a href="#" class="txt glyphicon glyphicon-flag">Role</a>
+<style>
+    .spanclass {
+        /* top: 10px; */
+        position: relative;
+    }
 
+    span {
+        position: relative;
+        color: red;
+        margin-top: 20px;
+    }
 
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
+    a.txt {
+        cursor: pointer;
+        text-decoration: none;
+        margin-top: 20px;
+    }
 
-    <div class="form-horizontal">
-        <h4>RoleM</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.RoleName, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.RoleName, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.RoleName, "", new { @class = "text-danger" })
-            </div>
-        </div>
+    .form-group {
+        height: 70px;
+    }
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+    a.txt.glyphicon.glyphicon-flag.glyphicon {
+        font-size: 40px;
+    }
+
+    .Loader {
+        width: 100%;
+        height: 100%;
+        /*        position: fixed;
+        z-index: 9999;*/
+        text-align: center;
+        background: white;
+        display: none;
+        margin-top: 100px;
+        margin-left: -200px;
+    }
+
+    img {
+        background: white;
+        margin-left: 500px;
+    }
+
+    img, .darkmode-ignore {
+        isolation: auto;
+        display: inline-block;
+        /* background-blend-mode: color-burn; */
+        background: linear-gradient(360deg, black, transparent);
+        border-radius: 10px;
+    }
+
+    a.txt.glyphicon.glyphicon-user.glyphicon {
+        font-size: 40px;
+    }
+
+    div#loader img, .darkmode-ignore {
+        background: transparent;
+    }
+</style>
+
+<div style="padding:1px;">
+    <div class="row-lg-12">
+        <div class="col-lg-6">
+            <div class="form-group">
+                <label class="control-label col-md-4">Name</label>
+                <div class="col-md-10">
+                    <input type="text" class="form-control" id="TxtName" />
+                </div>
+                <div class="spanclass col-md-10">
+                    <span id="lblName">&nbsp;</span>
+                </div>
             </div>
         </div>
     </div>
-}
+</div>
+<div class="form-group">
+    <div class="col-md-offset-2 col-md-10">
+        <input type="submit" value="Create" class="btn btn-default" />
+    </div>
+</div>
+
 
 <div>
     @Html.ActionLink("Back to List", "Index", "Employee_Master")

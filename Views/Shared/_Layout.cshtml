@@ -13,7 +13,7 @@
     <script src="~/Scripts/jquery.validate.min.js"></script>
     <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
     @*@Scripts.Render("~/bundles/modernizr")*@
-<link href="~/Content/DevIcons/css/devicons.min.css" rel="stylesheet" />
+    <link href="~/Content/DevIcons/css/devicons.min.css" rel="stylesheet" />
     <link href="~/Content/Css/sweetalert.css" rel="stylesheet" />
     <script src="~/Content/JS/jquery.cookie.js"></script>
 
@@ -66,15 +66,23 @@
                         if (User.IsInRole("Admin"))
                         {
                             @*<li>
-                                    <a href="@Url.Action("Index","Employee_Master")" class="navbar-brand">
-                                        <img src="~/Content/Img/logo.png" alt="No Img" style="height:50px; width:50px;" />
-                                    </a>
-                                </li>*@
+                    <a href="@Url.Action("Index","Employee_Master")" class="navbar-brand">
+                        <img src="~/Content/Img/logo.png" alt="No Img" style="height:50px; width:50px;" />
+                    </a>
+                </li>*@
                             <li> @Html.ActionLink("Create Role", "Role", "Home") </li>
                             <li></li>
                             <li> @Html.ActionLink("Create", "Create", "Employee_Master") </li>
                             <li></li>
                             <li> @Html.ActionLink("Show Record", "Index", "Employee_Master") </li>
+                            <li></li>
+                            <li> @Html.ActionLink("File Upload", "FileUpload", "Employee_Master") </li>
+
+                        }
+                        else if (User.IsInRole("User"))
+                        {
+                            <li></li>
+                            <li> @Html.ActionLink("File Upload", "FileUpload", "Employee_Master") </li>
                         }
                     }
                     else

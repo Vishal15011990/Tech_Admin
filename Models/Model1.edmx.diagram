@@ -5,17 +5,18 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="185ec4afc5a247a09d0ed53dceccf681" Name="Diagram1">
-        <EntityTypeShape EntityType="EmployeeModel.City_Info" Width="1.5" PointX="5.25" PointY="10" IsExpanded="true" />
-        <EntityTypeShape EntityType="EmployeeModel.Country_Info" Width="1.5" PointX="0.75" PointY="4.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="EmployeeModel.Employee_Master" Width="1.5" PointX="7.5" PointY="5.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="EmployeeModel.RoleMaster" Width="1.5" PointX="5.25" PointY="6" IsExpanded="true" />
-        <EntityTypeShape EntityType="EmployeeModel.State_info" Width="1.5" PointX="3" PointY="9.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="EmployeeModel.City_Info" Width="1.5" PointX="8.875" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="EmployeeModel.Country_Info" Width="1.5" PointX="5.625" PointY="3.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="EmployeeModel.Employee_Master" Width="1.5" PointX="3.25" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="EmployeeModel.RoleMaster" Width="1.5" PointX="5.5" PointY="0.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="EmployeeModel.State_info" Width="1.5" PointX="8.375" PointY="3.5" IsExpanded="true" />
         <AssociationConnector Association="EmployeeModel.FK_City_Info_State_Info" ManuallyRouted="false" />
         <AssociationConnector Association="EmployeeModel.FK_Employee_Master_City" ManuallyRouted="false" />
         <AssociationConnector Association="EmployeeModel.FK_Employee_Master_Country" ManuallyRouted="false" />
         <AssociationConnector Association="EmployeeModel.FK_State_info_Country_Info" ManuallyRouted="false" />
         <AssociationConnector Association="EmployeeModel.FK__Employee___RoleI__17036CC0" ManuallyRouted="false" />
         <AssociationConnector Association="EmployeeModel.FK_Employee_Master_State" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="EmployeeModel.File_Upload" Width="1.5" PointX="0.75" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -5,11 +5,13 @@ using System.Web;
 using System.Web.SessionState;
 using System.Data.Entity;
 using System.Web.Management;
+using System.IO;
 
 namespace Tech_Admin.Models.DbOperation
 {
     public class DbOperation
     {
+      
 
         public int CreateEmp(Employee_Master emp)
         {
@@ -36,6 +38,28 @@ namespace Tech_Admin.Models.DbOperation
                 return emp1.EmpId;
             }
         }
+
+
+
+        //public File_Upload Uploadfile(FileUpload fup)
+        //{
+        //    using (var context = new EmployeeEntities())
+        //    {
+        //        File_Upload fp = new File_Upload()
+        //        {
+        //            UploadID = Guid.NewGuid(),
+        //            IsActive = true,
+        //            Created_By = Guid.NewGuid(),
+        //            Created_On = DateTime.Now,
+        //            File_Name =fup.File.FileName+ Guid.NewGuid(),
+        //            File_Size = fup.File.ContentLength,
+        //            UserRefId = fup.EmployeeMD.EmpId,
+        //            Extension = Path.GetExtension(fup.File.FileName).Substring(1),
+        //        };
+        //        return fp;
+        //    }
+        //}
+
 
         public int RoleEmp(RoleM rolem)
         {

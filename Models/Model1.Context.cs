@@ -30,5 +30,6 @@ namespace Tech_Admin.Models
         public virtual DbSet<Employee_Master> Employee_Master { get; set; }
         public virtual DbSet<RoleMaster> RoleMaster { get; set; }
         public virtual DbSet<State_info> State_info { get; set; }
+        public virtual DbSet<File_Upload> File_Upload { get; set; }
     }
 }

@@ -10,6 +10,12 @@ using System.Web.Mvc;
 using Tech_Admin.Models;
 using Tech_Admin.Models.DbOperation;
 using System.Threading.Tasks;
+using System.Web;
+using System.IO;
+using System.Diagnostics.Eventing.Reader;
+using System.Configuration;
+using System.Data.SqlClient;
+using Tech_Admin.Connection_String;
 
 namespace Tech_Admin.Controllers
 {
@@ -305,7 +311,126 @@ namespace Tech_Admin.Controllers
         }
         #endregion
 
+        [Authorize (Roles="Admin,User")]
+        #region File Upload
+        public ActionResult FileUpload()
+        {
+            return View();
+        }
+
+        //[Authorize(Roles = "Admin,User")]
+        //[HttpPost]
+        //public ActionResult File_Upload()
+        //{
+        //    bool flag = true;
+        //    try
+        //    {
+        //        if (Request.Files.Count > 0)
+        //        {
+        //            HttpPostedFileBase file = Request.Files[0];
+        //            var path = Path.Combine(Server.MapPath("~/FileUpload"), file.FileName);
+        //            file.SaveAs(path);
+        //            if (file != null && file.ContentLength > 0)
+        //            {
+        //                try
+        //                {
+        //                    using (var context = new EmployeeEntities())
+        //                    {
+        //                        File_Upload emp = new File_Upload()
+        //                        {
+        //                            UploadID = Guid.NewGuid(),
+        //                            Created_By = Guid.Parse(Session["Login"].ToString()),
+        //                            Created_On = DateTime.Now,
+        //                            File_Name = Path.GetFileName(file.FileName),
+        //                            Extension = Path.GetExtension(file.FileName).Substring(1),
+        //                            File_Size = file.ContentLength,
+        //                            FilePath = path,
+        //                        };
+        //                        flag = true;
+        //                        db.Entry(emp).State = EntityState.Added;
+        //                        db.SaveChanges();
+        //                    }
+        //                }
+        //                catch(Exception e)
+        //                {
+        //                    flag = false;
+        //                    throw e;
+        //                }
+        //            }
+        //        }
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        throw e;
+        //    }
+        //    Console.WriteLine("Value is Present There");
+        //    return Json(flag);
+        //}
 
 
+        [Authorize(Roles = "Admin,User")]
+        [HttpPost]
+        public ActionResult File_Upload()
+        {
+            try
+            {
+                if (Request.Files.Count > 0)
+                {
+                    HttpFileCollectionBase files = Request.Files;
+                    for (int i = 0; i < files.Count; i++)
+                    {
+                        HttpPostedFileBase file = files[i];
+
+                        string fname;
+                        fname = file.FileName;
+                        
+                        string fpath = Path.Combine(Server.MapPath(ConfigurationManager.AppSettings["Upload"]), fname);
+                        file.SaveAs(fpath);
+
+                        int size = file.ContentLength;
+                        string ftype = file.ContentType;
+                        Guid Uid = Guid.NewGuid();
+                        Guid create = Guid.NewGuid();
+                        Guid user = Guid.NewGuid();
+                        bool valid = true;
+                        string createon = DateTime.Now.ToString();
+
+                        bool upload = Uploadfile(Uid, fname, create, createon, ftype, size, fpath, user, valid);
+                    }
+                }
+                return Json("Success");
+            }
+            catch (Exception e)
+            {
+                return Json("Error" + e.Message);
+            }
+        }
+
+        public bool Uploadfile(Guid uploadid,string Fname,Guid createby,string createon,string ftype,int fsize,string fpath,Guid userrefid,bool isvalid)
+        {
+            SqlConnection conn = new SqlConnection(AppSettingConnectionString.GetConnectionString("entity"));
+            
+            SqlCommand cmd = new SqlCommand("spUpload", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            conn.Open();
+
+            cmd.Parameters.AddWithValue("@UploadId", uploadid);
+            cmd.Parameters.AddWithValue("@File_name", Fname);
+            cmd.Parameters.AddWithValue("@File_type", ftype);
+            
+            cmd.Parameters.AddWithValue("@File_size", fsize);
+            cmd.Parameters.AddWithValue("@File_path", fpath);
+            cmd.Parameters.AddWithValue("@IsActive", isvalid);
+
+            cmd.Parameters.AddWithValue("@CreatedBy", createby);
+            cmd.Parameters.AddWithValue("@CreatedOn", createon);
+            cmd.Parameters.AddWithValue("@Userid", userrefid);
+            cmd.ExecuteScalar();
+            //conn.Close();
+            return true;
+        }
+
+
+        #endregion
     }
 }
