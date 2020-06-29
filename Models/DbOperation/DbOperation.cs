@@ -19,6 +19,7 @@ namespace Tech_Admin.Models.DbOperation
             {
                 Employee_Master emp1 = new Employee_Master()
                 {
+                   
                     Name = emp.Name,
                     Date_Of_Birth = emp.Date_Of_Birth,
                     Phone = emp.Phone,
@@ -38,7 +39,44 @@ namespace Tech_Admin.Models.DbOperation
                 return emp1.EmpId;
             }
         }
-
+        public List<Employee> GetRecord()
+        {
+                using (var context = new EmployeeEntities())
+                {
+                    var result = context.Employee_Master.Select(x => new Employee()
+                    {
+                        EmpId = x.EmpId,
+                        Name = x.Name,
+                        Date_Of_Birth = x.Date_Of_Birth,
+                        Phone = x.Phone,
+                        Address = x.Address,
+                        CountryMd = new CountryModel()
+                        {
+                            Country_Id = x.Country_Info.Country_Id,
+                            Country_name = x.Country_Info.Country_name,
+                        },
+                        StateMd = new StateModel()
+                        {
+                            State_Id = x.State_info.State_Id,
+                            State_Name = x.State_info.State_Name,
+                            Country_RefId = x.State_info.Country_RefId,
+                        },
+                        CityMd = new CityModel()
+                        {
+                            City_Id = x.City_Info.City_Id,
+                            City_Name = x.City_Info.City_Name,
+                            State_RefId = x.City_Info.State_RefId,
+                        },
+                        RoleMd = new RoleM()
+                        {
+                            RoleId = x.RoleMaster.RoleId,
+                            RoleName = x.RoleMaster.RoleName
+                        }
+                    }).ToList();
+                    return result;
+                }
+            
+        }
 
 
         //public File_Upload Uploadfile(FileUpload fup)

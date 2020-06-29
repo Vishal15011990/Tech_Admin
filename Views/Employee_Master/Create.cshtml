@@ -6,6 +6,17 @@
 
 <a href="#" class="txt glyphicon glyphicon-save"> Register User</a>
 <style>
+
+    .style1 {
+        border: none;
+        height: 100vh;
+        font-family: monospace;
+        /* display: block; */
+        box-shadow: 10px 10px 10px 10px grey;
+    }
+    .col-lg-6 {
+        margin-top: 120px;
+    }
     .spanclass {
         /* top: 10px; */
         position: relative;
@@ -67,7 +78,7 @@
 @*<link href="~/Controllers/Menu.css" rel="stylesheet" />*@
 
 <hr />
-<div style="padding:1px;">
+<div class="style1" style="padding:1px;">
     <div class="row-lg-12">
         <div class="col-lg-6">
             <div class="form-group">
@@ -156,7 +167,8 @@ htmlAttributes: new { @class = "form-control", @id = "State" })
             <div class="form-group">
                 <label class="control-label col-md-4">City</label>
                 <div class="col-md-10">
-                    @Html.DropDownListFor(model => model.City_Info.City_Id, new SelectList(Enumerable.Empty<SelectListItem>(), "City_Id", "City_Name"), "----Select City---", htmlAttributes: new { @class = "form-control", @id = "City" })
+                    @Html.DropDownListFor(model => model.City_Info.City_Id, new SelectList(Enumerable.Empty<SelectListItem>(), "City_Id", "City_Name"), "----Select City---", 
+                   htmlAttributes: new { @class = "form-control", @id = "City" })
                 </div>
                 <div>
                     <span id="lblCity">&nbsp;</span>
@@ -253,6 +265,11 @@ htmlAttributes: new { @class = "form-control", @id = "State" })
     <script>
     $(document).ready(function () {
 
+
+        $("#TxtDob").datetimepicker({
+            //format: 'DD-MM-YYYY'
+        });
+
         $(document).ajaxStart(function () {
             $("#loader").css("display", "block");
         });
@@ -260,9 +277,6 @@ htmlAttributes: new { @class = "form-control", @id = "State" })
             $("#loader").css("display", "none");
         });
 
-        $("#TxtDob").datetimepicker({
-            //format: 'DD-MM-YYYY'
-        });
 
 
         $("#TxtName").change( function () {
@@ -491,6 +505,7 @@ htmlAttributes: new { @class = "form-control", @id = "State" })
 
 
         $("#btnCreate").on("click", function () {
+         
         var name = $("#TxtName").val();
         var password = $("#TxtPassword").val();
         var CnfPassword = $("#TxtCnfPassword").val();
@@ -502,7 +517,7 @@ htmlAttributes: new { @class = "form-control", @id = "State" })
         var city = $("#City").val();
         var email = $("#TxtEmail").val();
         var role = $("#TxtRole").val();
-
+            
             var model = {
                 Name: name,
                 Date_Of_Birth: dob,
@@ -554,11 +569,12 @@ htmlAttributes: new { @class = "form-control", @id = "State" })
                 $("#lblRole").html("Please enter Role").show().fadeOut(2000);
             }
             else {
+                
                 $.ajax({
                     type: "POST",
                     data: model,
-                    url: '@Url.Action("Create2", "Employee_Master")',
-                    success: function (response) {
+                    url: '@Url.Action("Create", "Employee_Master")',
+                    success: function (response) { 
                         $.alert({
                             title: 'Success !',
                             content: 'Customer Saved successfully..!',

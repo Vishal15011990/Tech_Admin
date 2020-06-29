@@ -10,11 +10,36 @@
 <script src="~/Content/DataTables/datatables.js"></script>
 
 <style>
-
-    a.txt {
-        cursor: pointer;
-        text-decoration: none;
+    .style1 {
+        border: none;
+        height: 50vh;
+        font-family: monospace;
+        /* display: block; */
+        box-shadow: 10px 10px 10px 10px grey;
+        color:grey;
     }
+    #mytable tr:nth-child(2n+1)
+    {
+        background-color:gray;
+        color:goldenrod;
+        border:none;
+    }
+        #mytable tr:hover
+        {
+            background-color:antiquewhite;
+            
+        }
+        tr td a.txt{
+            color:black;
+        }
+        tr td a.txt:hover{
+            color:red;
+        } 
+
+        a.txt {
+            cursor: pointer;
+            text-decoration: none;
+        }
 
     a.clx {
         cursor: pointer;
@@ -30,7 +55,7 @@
     }
 </style>
 
-<table class="table" id="mytable">
+<table  class="table style1 table-hover table-striped" id="mytable">
     <thead>
         <tr>
             <th>

@@ -1,0 +1,66 @@
+﻿
+@{
+    ViewBag.Title = "Index2";
+}
+<link href="~/Content/JS/Jqgrid/jquery-ui.min.css" rel="stylesheet" />
+<link href="~/Content/JS/Jqgrid/ui.jqgrid.css" rel="stylesheet" />
+<script src="~/Content/JS/Jqgrid/grid.locale-en.js"></script>
+<script src="~/Content/JS/Jqgrid/jquery.jqGrid.js"></script>
+<h2>Index2</h2>
+
+<table id="list2"></table>
+<div id="pager2"></div>
+
+<script>
+    //<![CDATA[
+    $(function () {
+        "use strict";
+        $("#list2").jqGrid({
+            url: '@Url.Action("Index2","Employee_Master")',
+            datatype: "json",
+            colModel: [{
+                label: 'Name', name: 'Name', width: 70,
+                align: 'center', editable: true, hidden: true,
+            }],
+            rowNum: 20,
+            rowList: [10, 20, 30],
+            pager: '#pager2',
+            viewrecords: true,
+            sortorder: "desc",
+            loadonce: true,
+            caption: "Load Once Example"
+        });
+    });
+    //]]>
+</script>
+
+
+
+@*<script>
+        $(document).ready(function () {
+            debugger
+            jQuery("#list2").jqGrid({
+                url: '@Url.Action("Index2","Employee_Master")',
+                mtype: 'GET',
+                data: data,
+                datatype: 'json',
+                colModel: [
+                    { label: 'Name', name: 'Name' },
+                    { label: 'Dob', name: 'Date_Of_Birth' },
+                    { label: 'Phone', name: 'Phone' },
+                    { label: 'Address', name: 'Address' },
+                    { label: 'Country', name: 'Country' },
+                    { label: 'State', name: 'State' },
+                    { label: 'City', name: 'City' }
+                ],
+                //rowNum: 10,
+                //rowList: [10, 20, 30],
+                //pager: '#pager2',
+                //sortname: 'id',
+                //viewrecords: true,
+                //sortorder: "desc",
+                //caption: "JSON Example"
+            });
+            //jQuery("#list2").jqGrid('navGrid', '#pager2', { edit: false, add: false, del: false });
+        });
+    </script>*@

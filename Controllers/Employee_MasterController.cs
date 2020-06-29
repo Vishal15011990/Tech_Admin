@@ -5,7 +5,6 @@ using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
-
 using System.Web.Mvc;
 using Tech_Admin.Models;
 using Tech_Admin.Models.DbOperation;
@@ -16,6 +15,7 @@ using System.Diagnostics.Eventing.Reader;
 using System.Configuration;
 using System.Data.SqlClient;
 using Tech_Admin.Connection_String;
+using WordToPDF;
 
 namespace Tech_Admin.Controllers
 {
@@ -32,15 +32,14 @@ namespace Tech_Admin.Controllers
             return View(employee_Master);
         }
 
-
         [Authorize(Roles = "Admin,User")]
-        public JsonResult Index1()
+        public ActionResult Index2()
         {
-            //var employee_Master = db.Employee_Master.Where(x => x.IsActive == true).Include(e => e.City_Info).Include(e => e.Country_Info).Include(e => e.RoleMaster).Include(e => e.State_info).ToList();
-
-            var employee_Master = db2.Getrecord();
-            return Json(new { data = employee_Master }, JsonRequestBehavior.AllowGet);
+            //return View();
+            var employee_Master = db2.GetRecord();
+            return Json(employee_Master, JsonRequestBehavior.AllowGet);
         }
+
 
 
 
@@ -56,11 +55,7 @@ namespace Tech_Admin.Controllers
             return View();
         }
 
-        // POST: Employee_Master/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        //[ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult> Create(Employee_Master emp3)
         {
@@ -318,60 +313,12 @@ namespace Tech_Admin.Controllers
             return View();
         }
 
-        //[Authorize(Roles = "Admin,User")]
-        //[HttpPost]
-        //public ActionResult File_Upload()
-        //{
-        //    bool flag = true;
-        //    try
-        //    {
-        //        if (Request.Files.Count > 0)
-        //        {
-        //            HttpPostedFileBase file = Request.Files[0];
-        //            var path = Path.Combine(Server.MapPath("~/FileUpload"), file.FileName);
-        //            file.SaveAs(path);
-        //            if (file != null && file.ContentLength > 0)
-        //            {
-        //                try
-        //                {
-        //                    using (var context = new EmployeeEntities())
-        //                    {
-        //                        File_Upload emp = new File_Upload()
-        //                        {
-        //                            UploadID = Guid.NewGuid(),
-        //                            Created_By = Guid.Parse(Session["Login"].ToString()),
-        //                            Created_On = DateTime.Now,
-        //                            File_Name = Path.GetFileName(file.FileName),
-        //                            Extension = Path.GetExtension(file.FileName).Substring(1),
-        //                            File_Size = file.ContentLength,
-        //                            FilePath = path,
-        //                        };
-        //                        flag = true;
-        //                        db.Entry(emp).State = EntityState.Added;
-        //                        db.SaveChanges();
-        //                    }
-        //                }
-        //                catch(Exception e)
-        //                {
-        //                    flag = false;
-        //                    throw e;
-        //                }
-        //            }
-        //        }
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        throw e;
-        //    }
-        //    Console.WriteLine("Value is Present There");
-        //    return Json(flag);
-        //}
-
 
         [Authorize(Roles = "Admin,User")]
         [HttpPost]
         public ActionResult File_Upload()
         {
+            //Word2Pdf objWord = new Word2Pdf();
             try
             {
                 if (Request.Files.Count > 0)
@@ -394,7 +341,6 @@ namespace Tech_Admin.Controllers
                         Guid user = Guid.NewGuid();
                         bool valid = true;
                         string createon = DateTime.Now.ToString();
-
                         bool upload = Uploadfile(Uid, fname, create, createon, ftype, size, fpath, user, valid);
                     }
                 }

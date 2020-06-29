@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<a href="#" class="txt glyphicon glyphicon-user glyphicon"> Login User</a>
+<a href="#" class="txt glyphicon glyphicon-user glyphicon">Login User</a>
 <style>
     .spanclass {
         /* top: 10px; */
@@ -18,20 +18,37 @@
         margin-top: 20px;
     }
 
+
     a.txt {
         cursor: pointer;
         text-decoration: none;
+        color: green;
         margin-top: 50px;
+        border: none;
+        border-radius: 22px 0px 85px 20px;
+        box-shadow: -22px -9px 69px 14px rgba(0,0,0,0.84);
+        width: 250px;
+        text-align: center;
     }
+    .txt {
+        width: 200px;
+        
+        height:40px;
+    }
+/*    a.txt.darkmode--activated {
+        border-radius: 132px 0px 85px 0px;
+        box-shadow: -22px -9px 69px 14px rgba(0,0,0,0.84);
+    }*/
 
         a.txt:hover {
             background: red;
             box-shadow: 0 0 10px #ff0000,0 0 30px #ff0000,0 0 60px #ff0000,0 0 200px #ff0000;
-            border-radius: 3px;
+            color: white;
         }
 
     .form-group {
         height: 70px;
+        margin-top:30px;
     }
 
     .Loader {
@@ -57,8 +74,18 @@
         border-radius: 10px;
     }
     a.txt.glyphicon.glyphicon-user.glyphicon {
-        font-size: 40px;
+        font-size: 3rem;
+        letter-spacing: 5px;
+        
     }
+    a.txt.glyphicon.glyphicon-user.glyphicon:hover {
+        font-size: 3rem;
+        letter-spacing: 5px;
+        box-shadow: 5px 5px 5px 5px;
+        background:transparent;
+        color:goldenrod;
+    }
+
     div#loader img, .darkmode-ignore {
         background: transparent;
     }
@@ -66,10 +93,10 @@
 </style>
 
 <div style="padding:1px;">
-
+    <span class=" fa fa-user fa-10x"></span>
     <div class="row-lg-12">
         <div class="col-lg-6">
-            <div class="form-group">
+            <div class="form-group ">
                 <label class="control-label col-md-4">Name</label>
                 <div class="col-md-10">
                     <input type="text" class="form-control" id="TxtName" />

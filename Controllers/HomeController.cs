@@ -63,7 +63,7 @@ namespace Tech_Admin.Controllers
                 if (id > 0)
                 {
                     ModelState.Clear();
-                    return RedirectToAction("Index", "Employee_Master");
+                    return RedirectToAction("Index2", "Employee_Master");
                 }
             }
             return View();

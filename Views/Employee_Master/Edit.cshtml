@@ -8,7 +8,16 @@
 
 
 <style>
-
+    .style1 {
+        border: none;
+        height: 100vh;
+        font-family: monospace;
+        /* display: block; */
+        box-shadow: 10px 10px 10px 10px grey;
+    }
+    .col-lg-6 {
+        margin-top: 120px;
+    }
     .spanclass {
         /* top: 10px; */
         position: relative;
@@ -35,7 +44,7 @@
 </style>
 
 <hr />
-<div style="padding:10px;">
+<div class="style1" style="padding:10px;">
     <div class="row">
         <div class="col-lg-6">
             <input type="hidden" id="empId" value="@Model.EmpId" />
