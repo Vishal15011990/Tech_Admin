@@ -32,7 +32,8 @@ namespace Tech_Admin.Controllers
             var employee_Master = db.Employee_Master.Where(x => x.IsActive == true).Include(e => e.City_Info).Include(e => e.Country_Info).Include(e => e.RoleMaster).Include(e => e.State_info).ToList();
             return View(employee_Master);
         }
-
+       
+        #region JqGrid
         [Authorize(Roles = "Admin,User")]
         public ActionResult Index2()
         {
@@ -55,6 +56,7 @@ namespace Tech_Admin.Controllers
             return Json( emp2 , JsonRequestBehavior.AllowGet);
         }
 
+        #endregion
 
         #region Create User
         [Authorize(Roles = "Admin")]
