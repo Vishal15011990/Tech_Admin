@@ -1,66 +1,42 @@
 ﻿
 @{
     ViewBag.Title = "Index2";
+    Layout = "~/Views/Shared/_LayoutPage1.cshtml";
 }
 <link href="~/Content/JS/Jqgrid/jquery-ui.min.css" rel="stylesheet" />
 <link href="~/Content/JS/Jqgrid/ui.jqgrid.css" rel="stylesheet" />
 <script src="~/Content/JS/Jqgrid/grid.locale-en.js"></script>
 <script src="~/Content/JS/Jqgrid/jquery.jqGrid.js"></script>
+
 <h2>Index2</h2>
 
 <table id="list2"></table>
 <div id="pager2"></div>
 
+
 <script>
-    //<![CDATA[
     $(function () {
-        "use strict";
+        debugger;
         $("#list2").jqGrid({
-            url: '@Url.Action("Index2","Employee_Master")',
+            //mtype: 'GET',
             datatype: "json",
-            colModel: [{
-                label: 'Name', name: 'Name', width: 70,
-                align: 'center', editable: true, hidden: true,
-            }],
-            rowNum: 20,
-            rowList: [10, 20, 30],
-            pager: '#pager2',
-            viewrecords: true,
-            sortorder: "desc",
-            loadonce: true,
-            caption: "Load Once Example"
+            //data: JSON.stringify(data),
+            url: '@Url.Action("GetData","Employee_Master")',
+            height: 250,
+            colModel:
+                [
+                    { label: 'Id', name: 'EmpId', index: 'EmpId', width: 150, hidden: true },
+                    { label: 'Name', name: 'Name', index: 'Name', width: 150 },
+                    { label: 'Dob', name: 'Date_Of_Birth', index: 'Date_Of_Birth', width: 150 },
+                    { label: 'Phone', name: 'Phone', index: 'Phone', width: 150 },
+                    { label: 'Address', name: 'Address', index: 'Address', width: 150 },
+                    { label: 'Country', name: 'Country', index: 'Country', width: 150 },
+                    { label: 'State', name: 'State', index: 'State', width: 150 },
+                    { label: 'City', name: 'City', index: 'City', width: 150 },
+                    { label: 'EmailId', name: 'EmailId', index: 'EmailId', width: 150 },
+                ],
+            viewrecord: true,
         });
     });
-    //]]>
+
 </script>
-
-
-
-@*<script>
-        $(document).ready(function () {
-            debugger
-            jQuery("#list2").jqGrid({
-                url: '@Url.Action("Index2","Employee_Master")',
-                mtype: 'GET',
-                data: data,
-                datatype: 'json',
-                colModel: [
-                    { label: 'Name', name: 'Name' },
-                    { label: 'Dob', name: 'Date_Of_Birth' },
-                    { label: 'Phone', name: 'Phone' },
-                    { label: 'Address', name: 'Address' },
-                    { label: 'Country', name: 'Country' },
-                    { label: 'State', name: 'State' },
-                    { label: 'City', name: 'City' }
-                ],
-                //rowNum: 10,
-                //rowList: [10, 20, 30],
-                //pager: '#pager2',
-                //sortname: 'id',
-                //viewrecords: true,
-                //sortorder: "desc",
-                //caption: "JSON Example"
-            });
-            //jQuery("#list2").jqGrid('navGrid', '#pager2', { edit: false, add: false, del: false });
-        });
-    </script>*@

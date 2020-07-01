@@ -135,6 +135,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Connection String\AppSettingConnectionString.cs" />
     <Compile Include="Connection String\Word to Pdf conversion.cs" />
+    <Compile Include="Controllers\DAL.cs" />
     <Compile Include="Controllers\Employee_MasterController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
@@ -1059,6 +1060,7 @@
     <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Views\Employee_Master\FileUpload.cshtml" />
     <Content Include="Views\Employee_Master\Index2.cshtml" />
+    <Content Include="Views\Shared\_LayoutPage1.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

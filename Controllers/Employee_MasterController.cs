@@ -16,6 +16,7 @@ using System.Configuration;
 using System.Data.SqlClient;
 using Tech_Admin.Connection_String;
 using WordToPDF;
+using Newtonsoft.Json;
 
 namespace Tech_Admin.Controllers
 {
@@ -35,12 +36,24 @@ namespace Tech_Admin.Controllers
         [Authorize(Roles = "Admin,User")]
         public ActionResult Index2()
         {
-            //return View();
-            var employee_Master = db2.GetRecord();
-            return Json(employee_Master, JsonRequestBehavior.AllowGet);
+            return View();
         }
 
+        public ActionResult Getdata()
+        {
+            DAL da = new DAL();
+            List<Employee_Master> emplist = new List<Employee_Master>();
+            emplist = da.GetData();
+            List<Employee_Master> emp2 = new List<Employee_Master>();
+            for (int i = 0; i < emplist.Count; i++)
+            {
+                Employee_Master emp3 = new Employee_Master();
+                emp3 = emplist[i];
+                emp2.Add(emp3);
 
+            }
+            return Json( emp2 , JsonRequestBehavior.AllowGet);
+        }
 
 
         #region Create User
