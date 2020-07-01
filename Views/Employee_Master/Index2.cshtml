@@ -9,34 +9,130 @@
 <script src="~/Content/JS/Jqgrid/jquery.jqGrid.js"></script>
 
 <h2>Index2</h2>
+<div class="container">
+    <table id="list2" class="table table-hover table-striped"></table>
+    <div id="pager2"></div>
 
-<table id="list2"></table>
-<div id="pager2"></div>
-
+</div>
 
 <script>
-    $(function () {
-        debugger;
         $("#list2").jqGrid({
-            //mtype: 'GET',
             datatype: "json",
-            //data: JSON.stringify(data),
             url: '@Url.Action("GetData","Employee_Master")',
-            height: 250,
+            height: 150,
             colModel:
                 [
                     { label: 'Id', name: 'EmpId', index: 'EmpId', width: 150, hidden: true },
-                    { label: 'Name', name: 'Name', index: 'Name', width: 150 },
-                    { label: 'Dob', name: 'Date_Of_Birth', index: 'Date_Of_Birth', width: 150 },
-                    { label: 'Phone', name: 'Phone', index: 'Phone', width: 150 },
-                    { label: 'Address', name: 'Address', index: 'Address', width: 150 },
-                    { label: 'Country', name: 'Country', index: 'Country', width: 150 },
-                    { label: 'State', name: 'State', index: 'State', width: 150 },
-                    { label: 'City', name: 'City', index: 'City', width: 150 },
-                    { label: 'EmailId', name: 'EmailId', index: 'EmailId', width: 150 },
+                    { label: 'Name', name: 'Name', index: 'Name', width: 150, editable: true },
+                    {
+                        label: 'Dob', name: 'Date_Of_Birth', index: 'Date_Of_Birth', width: 150,
+                        formatter: 'date', formatoptions: { newformat: 'd-M-Y' },
+                        datefmt: 'd-M-Y', sorttype: 'date', align: 'center', editable: true
+                    },
+                    { label: 'Phone', name: 'Phone', index: 'Phone', width: 150, editable: true },
+                    { label: 'Address', name: 'Address', index: 'Address', width: 150, editable: true },
+                    {
+                        label: 'Country', name: 'Country', index: 'Country', edittype: 'select',
+                        editoptions: {
+                            value: GetCountry()
+                        },
+                        width: 150, editable: true,
+                        formatter: 'select'
+                    },
+                    {
+                        label: 'State', name: 'State', index: 'State', width: 150, editable: true, edittype: 'select',
+                        editoptions: {
+                            value: GetState()
+                        },
+                        formatter: 'select'
+
+                    },
+                    {
+                        label: 'City', name: 'City', index: 'City', width: 150, editable: true, edittype: 'select',
+                        editoptions:
+                        {
+                            value: GetCity()
+                        },
+                        formatter:'select'
+                    },
+                    { label: 'EmailId', name: 'EmailId', index: 'EmailId', width: 150, editable: true },
                 ],
-            viewrecord: true,
+            rowNum: 10,
+            rowList: [10, 20, 30],
+            pager: '#pager2',
+            sortname: 'EmpId',
+            viewrecords: true,
+            sortorder: "desc",
+            caption: "Employee Detail"
         });
-    });
+        jQuery("#list2").jqGrid('navGrid', '#pager2', { edit: true, add: true, del: true });
+
+
+     function GetCountry() {
+         var Countrylist = {};
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("GetCountry","Employee_Master")',
+                dataType: "json",
+                async: false,
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+
+                    for (var i = 0; i < data.length; i++) {
+                        
+                        var obj = {};
+                        var Name = data[i].Country_name;
+                        var key = "" + data[i].Country_Id;
+                        Countrylist[key] = Name;
+                    }
+                }
+            });
+         return Countrylist;
+        }
+
+    function GetState() {
+        debugger;
+        var Statelist = {};
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("GetState2","Employee_Master")',
+            async: false,
+            contentType: "application/json; charset=utf-8",
+       
+            success: function (data) {
+                debugger;
+                for (var i = 0; i < data.length; i++) {
+                    debugger;
+                    var obj = {};
+                    var Name = data[i].State_Name;
+                    var key = data[i].State_Id;
+                    Statelist[key] = Name;
+                }
+            }
+        });
+        return Statelist;
+    }
+
+
+    function GetCity() {
+
+        var Citylist = {};
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("GetCity2","Employee_Master")',
+            async: false,
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                for (var i = 0; i < data.length; i++) {
+                    var obj = {};
+                    var Name = data[i].City_Name;
+                    var key = data[i].City_Id;
+                    Citylist[key] = Name;
+                }
+            }
+        });
+        return Citylist;
+    }
 
 </script>

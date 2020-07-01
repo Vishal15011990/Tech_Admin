@@ -24,7 +24,7 @@ namespace Tech_Admin.Controllers
     {
         private EmployeeEntities db = new EmployeeEntities();
         private DbOperation db2 = new DbOperation();
-
+        private DAL db3 = new DAL();
         // GET: Employee_Master
         [Authorize(Roles = "Admin,User")]
         public ActionResult Index()
@@ -42,9 +42,9 @@ namespace Tech_Admin.Controllers
 
         public ActionResult Getdata()
         {
-            DAL da = new DAL();
+            
             List<Employee_Master> emplist = new List<Employee_Master>();
-            emplist = da.GetData();
+            emplist = db3.GetData();
             List<Employee_Master> emp2 = new List<Employee_Master>();
             for (int i = 0; i < emplist.Count; i++)
             {
@@ -53,6 +53,8 @@ namespace Tech_Admin.Controllers
                 emp2.Add(emp3);
 
             }
+
+            // var emp2 = db2.GetRecord();
             return Json( emp2 , JsonRequestBehavior.AllowGet);
         }
 
@@ -393,5 +395,32 @@ namespace Tech_Admin.Controllers
 
 
         #endregion
+
+
+
+        #region GetCountrylist GetState GetCity
+        public ActionResult GetCountry()
+
+        {
+            List<Country_Info> countryList = db3.GetCountry();
+            return Json(countryList, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult GetState2()
+        {
+            List<State_info> stateList = db3.GetState();
+            return Json(stateList, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult GetCity2()
+
+        {
+            List<City_Info> cityList = db3.GetCity();
+            return Json(cityList, JsonRequestBehavior.AllowGet);
+        }
+
+
+        #endregion
+
     }
 }

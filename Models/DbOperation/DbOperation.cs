@@ -78,6 +78,18 @@ namespace Tech_Admin.Models.DbOperation
             
         }
 
+        //public List<Country_Info> GetCountry()
+        //{
+        //    using(var context=new EmployeeEntities())
+        //    {
+        //        var result = context.Country_Info.Select(x => new Country_Info()
+        //        {
+        //            Country_Id = x.Country_Id,
+        //            Country_name = x.Country_name
+        //        }).ToList();
+        //        return result;
+        //    }
+        //}
 
         //public File_Upload Uploadfile(FileUpload fup)
         //{
