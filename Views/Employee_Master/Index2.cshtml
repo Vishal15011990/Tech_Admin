@@ -3,10 +3,7 @@
     ViewBag.Title = "Index2";
     Layout = "~/Views/Shared/_LayoutPage1.cshtml";
 }
-<link href="~/Content/JS/Jqgrid/jquery-ui.min.css" rel="stylesheet" />
-<link href="~/Content/JS/Jqgrid/ui.jqgrid.css" rel="stylesheet" />
-<script src="~/Content/JS/Jqgrid/grid.locale-en.js"></script>
-<script src="~/Content/JS/Jqgrid/jquery.jqGrid.js"></script>
+
 
 <h2>Index2</h2>
 <div class="container">
@@ -23,24 +20,28 @@
             colModel:
                 [
                     { label: 'Id', name: 'EmpId', index: 'EmpId', width: 150, hidden: true },
-                    { label: 'Name', name: 'Name', index: 'Name', width: 150, editable: true },
+                    { label: 'Name', name: 'Name', index: 'Name', width: 150, editable: true, sortable: true, sorttype: 'text'  },
                     {
                         label: 'Dob', name: 'Date_Of_Birth', index: 'Date_Of_Birth', width: 150,
                         formatter: 'date', formatoptions: { newformat: 'd-M-Y' },
                         datefmt: 'd-M-Y', sorttype: 'date', align: 'center', editable: true
                     },
-                    { label: 'Phone', name: 'Phone', index: 'Phone', width: 150, editable: true },
-                    { label: 'Address', name: 'Address', index: 'Address', width: 150, editable: true },
+                    { label: 'Phone', name: 'Phone', index: 'Phone', width: 150, sortable: true, editable: true },
+                    { label: 'Address', name: 'Address', index: 'Address', width: 150, sortable: true, editable: false },
                     {
-                        label: 'Country', name: 'Country', index: 'Country', edittype: 'select',
+                        label: 'Country', name: 'Country', index: 'Country', edittype: 'select', sortable: true,
                         editoptions: {
                             value: GetCountry()
+                            //dataEvents: [{
+                            //    type: 'change',
+                            //    fn: function (e) { countrychange(); }
+                            //}]
                         },
                         width: 150, editable: true,
-                        formatter: 'select'
+                        formatter: 'select',
                     },
                     {
-                        label: 'State', name: 'State', index: 'State', width: 150, editable: true, edittype: 'select',
+                        label: 'State', name: 'State', index: 'State', width: 150, sortable: true, editable:true, edittype: 'select',
                         editoptions: {
                             value: GetState()
                         },
@@ -48,29 +49,62 @@
 
                     },
                     {
-                        label: 'City', name: 'City', index: 'City', width: 150, editable: true, edittype: 'select',
+                        label: 'City', name: 'City', index: 'City', width: 150, sortable: true, editable: true, edittype: 'select',
                         editoptions:
                         {
                             value: GetCity()
                         },
                         formatter:'select'
                     },
-                    { label: 'EmailId', name: 'EmailId', index: 'EmailId', width: 150, editable: true },
+                    { label: 'EmailId', name: 'EmailId', index: 'EmailId', width: 150, sortable: true, editable: true },
                 ],
             rowNum: 10,
             rowList: [10, 20, 30],
             pager: '#pager2',
-            sortname: 'EmpId',
+            sortname: 'Name',
             viewrecords: true,
             sortorder: "desc",
+            grouping: true,
+            groupingView: {
+                groupField: ['EmpId'],
+                groupColumnShow: [false],
+                groupText: ['<b> ID: {0} </b>'],
+                grouporder: 'desc',
+                groupCollapse: false
+            },
             caption: "Employee Detail"
         });
         jQuery("#list2").jqGrid('navGrid', '#pager2', { edit: true, add: true, del: true });
 
 
+    function countrychange() {
+        var country = $(this).val();
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("GetState","Employee_Master")',
+            data: { 'Cid': country },
+            success: function (data) {
+                var state = $("#State");
+                state.empty();
+                state.append($('<option/>', {
+                    Value: 0,
+                    Text:"--Select State---"
+                }));
+                $.each(data, function (index, item) {
+                    state.append($('<option/>', {
+                        Value: item.Value,
+                        Text: item.Text
+                    }));
+                });
+            }
+        });
+    }
+
+
+
+
      function GetCountry() {
          var Countrylist = {};
-
             $.ajax({
                 type: "POST",
                 url: '@Url.Action("GetCountry","Employee_Master")',
@@ -92,7 +126,7 @@
         }
 
     function GetState() {
-        debugger;
+        
         var Statelist = {};
         $.ajax({
             type: "POST",
@@ -101,9 +135,9 @@
             contentType: "application/json; charset=utf-8",
        
             success: function (data) {
-                debugger;
+                
                 for (var i = 0; i < data.length; i++) {
-                    debugger;
+                    
                     var obj = {};
                     var Name = data[i].State_Name;
                     var key = data[i].State_Id;

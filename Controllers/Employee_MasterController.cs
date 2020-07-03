@@ -17,6 +17,9 @@ using System.Data.SqlClient;
 using Tech_Admin.Connection_String;
 using WordToPDF;
 using Newtonsoft.Json;
+using System.Web.UI;
+using DocumentFormat.OpenXml.Spreadsheet;
+using OfficeOpenXml;
 
 namespace Tech_Admin.Controllers
 {
@@ -422,5 +425,68 @@ namespace Tech_Admin.Controllers
 
         #endregion
 
+
+
+
+
+
+        #region download
+        public ActionResult ExportToExcel()
+        {
+            List<Employee_Master> emplist = new List<Employee_Master>();
+            emplist = db.Employee_Master.ToList();
+
+            var grid = new System.Web.UI.WebControls.GridView();
+            grid.DataSource = from p in emplist
+                              select new
+                              {
+                                  Name = p.Name.ToString(),
+                                  Dob = p.Date_Of_Birth.ToString(),
+                                  Country = p.Country_Info.Country_name.ToString(),
+                                  City = p.City_Info.City_Name.ToString(),
+                                  State=p.State_info.State_Name.ToString(),
+                                  EmailId=p.EmailId.ToString(),
+                                  Phone=p.Phone.ToString()
+                              };
+            grid.DataBind();
+            Response.ClearContent();
+            Response.AddHeader("content-disposition", "attachment;filename=MyFile.xls");
+            Response.ContentType = "application/excel";
+            StringWriter sw = new StringWriter();
+            HtmlTextWriter tw = new HtmlTextWriter(sw);
+            grid.RenderControl(tw);
+            Response.Write(sw.ToString());
+            Response.End();
+            return Json("Success");
+        }
+
+        //public ActionResult ExportToExcel1()
+        //{
+        //    List<Employee_Master> emplist = new List<Employee_Master>();
+        //    emplist = db.Employee_Master.ToList();
+
+        //    ExcelPackage pkg = new ExcelPackage();
+        //    ExcelWorksheet ws = pkg.Workbook.Worksheets.Add("Reports");
+
+        //    var grid = new System.Web.UI.WebControls.GridView();
+        //    grid.DataSource = from p in emplist
+        //                      select new
+        //                      {
+        //                          Name = p.Name.ToString(),
+        //                          Dob = p.Date_Of_Birth.ToString(),
+        //                          Country = p.Country_Info.Country_name.ToString(),
+        //                          City = p.City_Info.City_Name.ToString(),
+        //                          State = p.State_info.State_Name.ToString(),
+        //                          EmailId = p.EmailId.ToString(),
+        //                          Phone = p.Phone.ToString()
+        //                      };
+        //    grid.DataBind();
+
+
+        //    ws.Cells["A6"].Value=
+
+        //    return Json("Success");
+        //}
+        #endregion
     }
 }

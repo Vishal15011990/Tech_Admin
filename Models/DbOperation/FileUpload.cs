@@ -7,7 +7,7 @@ using Tech_Admin.Models.DbOperation;
 
 namespace Tech_Admin.Models
 {
-    public class FileUpload
+    public class FileUpload2
     {
         public System.Guid UploadId { get; set; }
         public HttpPostedFileBase File_name { get; set; }

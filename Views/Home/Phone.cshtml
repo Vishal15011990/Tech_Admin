@@ -1,0 +1,153 @@
+﻿@model Tech_Admin.Models.Phone_Master
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Phone</title>
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/src/IntlPhone/css/intlTelInput.min.css" rel="stylesheet" />
+    <link href="~/Content/src/IntlPhone/css/demo.css" rel="stylesheet" />
+    <style>
+        .iti-flag{ background-image:url("../../Content/src/IntlPhone/img/flags.png");}
+        @*@media (-webkit-min-device-pixel-ratio:2),(min-resolution: 192dpi) {
+            .iti-flag
+
+        {
+            background-image: url("../../Content/src/IntlPhone/img/flags@2x.png");
+        }
+      }*@
+
+        #valid-msg {
+            color: green;
+        }
+        #error-msg{
+            color:red;
+        }
+        .col-md-offset-2.col-md-10 {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label class="fa fa-phone fa-3x"></label>
+                <div class="container col-md-10" style="width:400px;">
+                    <div>
+                        <input type="tel" class="form-control" name="phone" max="10" id="TxtPhone" />
+                    </div>
+                    &nbsp;&nbsp;&nbsp; <span id="valid-msg" class="hide Class_span">&nbsp;</span>
+                    &nbsp;&nbsp;&nbsp;<span id="error-msg" class="hide Class_span">&nbsp;</span>
+                </div>
+                <div>
+                    <select id="address-country"></select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="button" value="Create" class="btn btn-block" style="width:500px"  placeholder="+1"/>
+        </div>
+
+    </div>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.3/js/intlTelInput.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.3/js/intlTelInput.min.js"></script>
+    <script>
+
+       
+        var input = document.querySelector("#TxtPhone");
+        var msg = document.querySelector("#valid-msg");
+        var msg2 = document.querySelector("#error-msg");
+        var address = document.querySelector("#address-country");
+        var countryData = window.intlTelInputGlobals.getCountryData();
+
+        var intl = window.intlTelInput(input, {
+            utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.3/js/utils.js"
+
+        });
+
+        var errorMap = ["Invalid number", "Invalid country code", "Too short", "Too long", "Invalid number"];
+        var reset = function () {
+            input.classList.remove("error");
+            msg2.innerHTML = "";
+            msg2.classList.add("hide");
+            msg.classList.add("hide");
+        };
+
+        for (var i = 0; i < countryData.length; i++) {
+            var country = countryData[i];
+            var optionNode = document.createElement("option");
+            optionNode.value = country.iso2;
+            var textNode = document.createTextNode(country.name);
+            optionNode.appendChild(textNode);
+            address.appendChild(optionNode);
+        }
+        address.value = intl.getSelectedCountryData().iso2;
+        
+
+        input.addEventListener('countrychange', function () {
+            address.value = intl.getSelectedCountryData().iso2;
+            
+           
+        })
+        address.addEventListener('change', function () {
+            alert(intl.setCountry(this.value));
+            
+        })
+
+        input.addEventListener('countrychange', function () {
+            //input.value = intl.getSelectedCountryData().iso2;
+            //alert(input.value);
+            
+
+        })
+
+
+        input.addEventListener('blur', function () {
+            reset();
+            if (input.value.trim()) {
+                if (intl.isValidNumber()) {
+                    msg.classList.remove("hide");
+                }
+                else {
+                    input.classList.add("error");
+                    var errorCode = intl.getValidationError();
+                    msg2.innerHTML = errorMap[errorCode];
+                    msg2.classList.remove("hide");
+                }
+            }
+        });
+
+        input.addEventListener('change', reset);
+        input.addEventListener('keyup', reset);
+
+       
+        $("#TxtPhone").intlTelInput({
+  
+            autoHideDialCode: false,
+        });
+
+
+        //$("#TxtPhone").keypress(function (e) {
+        //    if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+        //        $("#lblPhone").html("Digits Only").show().fadeOut("slow");
+        //        return false;
+        //    }
+        //});
+    </script>
+
+
+</body>
+</html>

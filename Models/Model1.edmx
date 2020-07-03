@@ -42,22 +42,52 @@
           <Property Name="Createdon" Type="datetime" />
           <Property Name="Password" Type="nvarchar(max)" />
         </EntityType>
-        <EntityType Name="File_Upload">
+        <EntityType Name="FileUpload">
           <Key>
             <PropertyRef Name="UploadId" />
           </Key>
           <Property Name="UploadId" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="File_name" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="File_size" Type="bigint" Nullable="false" />
-          <Property Name="File_Path" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="File_name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="File_type" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="File_size" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="File_path" Type="nvarchar(max)" Nullable="false" />
           <Property Name="IsActive" Type="bit" />
           <Property Name="IsDelete" Type="bit" />
-          <Property Name="CreatedBy" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="CreatedOn" Type="datetime" Nullable="false" />
           <Property Name="ModifiedBy" Type="uniqueidentifier" />
           <Property Name="ModifiedOn" Type="datetime" />
-          <Property Name="UserRefId" Type="uniqueidentifier" />
-          <Property Name="File_Type" Type="nvarchar" MaxLength="50" />
+          <Property Name="CreatedBy" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="CreatedOn" Type="datetime" Nullable="false" />
+          <Property Name="Userid" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MasterAdmin">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AdminName" Type="varchar(max)" Nullable="false" />
+          <Property Name="AdminPassword" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Phone_Master">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Phone_Number" Type="varchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Qualification">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="QualRefID" Type="int" Nullable="false" />
+          <Property Name="EmRefID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Qualification_Master">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Qualification" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="RoleMaster">
           <Key>
@@ -138,6 +168,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Qualification_Employee">
+          <End Role="Employee_Master" Type="Self.Employee_Master" Multiplicity="1" />
+          <End Role="Qualification" Type="Self.Qualification" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee_Master">
+              <PropertyRef Name="EmpId" />
+            </Principal>
+            <Dependent Role="Qualification">
+              <PropertyRef Name="EmRefID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Qualification_Qualification_Master">
+          <End Role="Qualification_Master" Type="Self.Qualification_Master" Multiplicity="1" />
+          <End Role="Qualification" Type="Self.Qualification" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Qualification_Master">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Qualification">
+              <PropertyRef Name="QualRefID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_State_info_Country_Info">
           <End Role="Country_Info" Type="Self.Country_Info" Multiplicity="0..1" />
           <End Role="State_info" Type="Self.State_info" Multiplicity="*" />
@@ -154,7 +208,11 @@
           <EntitySet Name="City_Info" EntityType="Self.City_Info" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Country_Info" EntityType="Self.Country_Info" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Employee_Master" EntityType="Self.Employee_Master" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="File_Upload" EntityType="Self.File_Upload" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FileUpload" EntityType="Self.FileUpload" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MasterAdmin" EntityType="Self.MasterAdmin" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Phone_Master" EntityType="Self.Phone_Master" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Qualification" EntityType="Self.Qualification" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Qualification_Master" EntityType="Self.Qualification_Master" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RoleMaster" EntityType="Self.RoleMaster" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="State_info" EntityType="Self.State_info" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK__Employee___RoleI__17036CC0" Association="Self.FK__Employee___RoleI__17036CC0">
@@ -176,6 +234,14 @@
           <AssociationSet Name="FK_Employee_Master_State" Association="Self.FK_Employee_Master_State">
             <End Role="State_info" EntitySet="State_info" />
             <End Role="Employee_Master" EntitySet="Employee_Master" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Qualification_Employee" Association="Self.FK_Qualification_Employee">
+            <End Role="Employee_Master" EntitySet="Employee_Master" />
+            <End Role="Qualification" EntitySet="Qualification" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Qualification_Qualification_Master" Association="Self.FK_Qualification_Qualification_Master">
+            <End Role="Qualification_Master" EntitySet="Qualification_Master" />
+            <End Role="Qualification" EntitySet="Qualification" />
           </AssociationSet>
           <AssociationSet Name="FK_State_info_Country_Info" Association="Self.FK_State_info_Country_Info">
             <End Role="Country_Info" EntitySet="Country_Info" />
@@ -230,6 +296,57 @@
           <NavigationProperty Name="Country_Info" Relationship="Self.FK_Employee_Master_Country" FromRole="Employee_Master" ToRole="Country_Info" />
           <NavigationProperty Name="RoleMaster" Relationship="Self.FK__Employee___RoleI__17036CC0" FromRole="Employee_Master" ToRole="RoleMaster" />
           <NavigationProperty Name="State_info" Relationship="Self.FK_Employee_Master_State" FromRole="Employee_Master" ToRole="State_info" />
+          <NavigationProperty Name="Qualification" Relationship="Self.FK_Qualification_Employee" FromRole="Employee_Master" ToRole="Qualification" />
+        </EntityType>
+        <EntityType Name="FileUpload">
+          <Key>
+            <PropertyRef Name="UploadId" />
+          </Key>
+          <Property Name="UploadId" Type="Guid" Nullable="false" />
+          <Property Name="File_name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="File_type" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="File_size" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="File_path" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="IsDelete" Type="Boolean" />
+          <Property Name="ModifiedBy" Type="Guid" />
+          <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
+          <Property Name="CreatedBy" Type="Guid" Nullable="false" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Userid" Type="Guid" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MasterAdmin">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AdminName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="AdminPassword" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Phone_Master">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Phone_Number" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Qualification">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="QualRefID" Type="Int32" Nullable="false" />
+          <Property Name="EmRefID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Employee_Master" Relationship="Self.FK_Qualification_Employee" FromRole="Qualification" ToRole="Employee_Master" />
+          <NavigationProperty Name="Qualification_Master" Relationship="Self.FK_Qualification_Qualification_Master" FromRole="Qualification" ToRole="Qualification_Master" />
+        </EntityType>
+        <EntityType Name="Qualification_Master">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Qualification" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Qualification1" Relationship="Self.FK_Qualification_Qualification_Master" FromRole="Qualification_Master" ToRole="Qualification" />
         </EntityType>
         <EntityType Name="RoleMaster">
           <Key>
@@ -326,10 +443,39 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Qualification_Employee">
+          <End Role="Employee_Master" Type="Self.Employee_Master" Multiplicity="1" />
+          <End Role="Qualification" Type="Self.Qualification" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee_Master">
+              <PropertyRef Name="EmpId" />
+            </Principal>
+            <Dependent Role="Qualification">
+              <PropertyRef Name="EmRefID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Qualification_Qualification_Master">
+          <End Role="Qualification_Master" Type="Self.Qualification_Master" Multiplicity="1" />
+          <End Role="Qualification" Type="Self.Qualification" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Qualification_Master">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Qualification">
+              <PropertyRef Name="QualRefID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="EmployeeEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="City_Info" EntityType="Self.City_Info" />
           <EntitySet Name="Country_Info" EntityType="Self.Country_Info" />
           <EntitySet Name="Employee_Master" EntityType="Self.Employee_Master" />
+          <EntitySet Name="FileUpload" EntityType="Self.FileUpload" />
+          <EntitySet Name="MasterAdmin" EntityType="Self.MasterAdmin" />
+          <EntitySet Name="Phone_Master" EntityType="Self.Phone_Master" />
+          <EntitySet Name="Qualification" EntityType="Self.Qualification" />
+          <EntitySet Name="Qualification_Master" EntityType="Self.Qualification_Master" />
           <EntitySet Name="RoleMaster" EntityType="Self.RoleMaster" />
           <EntitySet Name="State_info" EntityType="Self.State_info" />
           <AssociationSet Name="FK_City_Info_State_Info" Association="Self.FK_City_Info_State_Info">
@@ -356,25 +502,15 @@
             <End Role="State_info" EntitySet="State_info" />
             <End Role="Employee_Master" EntitySet="Employee_Master" />
           </AssociationSet>
-          <EntitySet Name="File_Upload" EntityType="EmployeeModel.File_Upload" />
+          <AssociationSet Name="FK_Qualification_Employee" Association="Self.FK_Qualification_Employee">
+            <End Role="Employee_Master" EntitySet="Employee_Master" />
+            <End Role="Qualification" EntitySet="Qualification" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Qualification_Qualification_Master" Association="Self.FK_Qualification_Qualification_Master">
+            <End Role="Qualification_Master" EntitySet="Qualification_Master" />
+            <End Role="Qualification" EntitySet="Qualification" />
+          </AssociationSet>
         </EntityContainer>
-        <EntityType Name="File_Upload">
-          <Key>
-            <PropertyRef Name="UploadId" />
-          </Key>
-          <Property Name="UploadId" Type="Guid" Nullable="false" />
-          <Property Name="File_name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="File_size" Type="Int64" Nullable="false" />
-          <Property Name="File_Path" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="IsActive" Type="Boolean" />
-          <Property Name="IsDelete" Type="Boolean" />
-          <Property Name="CreatedBy" Type="Guid" Nullable="false" />
-          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="ModifiedBy" Type="Guid" />
-          <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
-          <Property Name="UserRefId" Type="Guid" />
-          <Property Name="File_Type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -421,6 +557,58 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="FileUpload">
+            <EntityTypeMapping TypeName="EmployeeModel.FileUpload">
+              <MappingFragment StoreEntitySet="FileUpload">
+                <ScalarProperty Name="UploadId" ColumnName="UploadId" />
+                <ScalarProperty Name="File_name" ColumnName="File_name" />
+                <ScalarProperty Name="File_type" ColumnName="File_type" />
+                <ScalarProperty Name="File_size" ColumnName="File_size" />
+                <ScalarProperty Name="File_path" ColumnName="File_path" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="Userid" ColumnName="Userid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MasterAdmin">
+            <EntityTypeMapping TypeName="EmployeeModel.MasterAdmin">
+              <MappingFragment StoreEntitySet="MasterAdmin">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="AdminName" ColumnName="AdminName" />
+                <ScalarProperty Name="AdminPassword" ColumnName="AdminPassword" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Phone_Master">
+            <EntityTypeMapping TypeName="EmployeeModel.Phone_Master">
+              <MappingFragment StoreEntitySet="Phone_Master">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Phone_Number" ColumnName="Phone_Number" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Qualification">
+            <EntityTypeMapping TypeName="EmployeeModel.Qualification">
+              <MappingFragment StoreEntitySet="Qualification">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="QualRefID" ColumnName="QualRefID" />
+                <ScalarProperty Name="EmRefID" ColumnName="EmRefID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Qualification_Master">
+            <EntityTypeMapping TypeName="EmployeeModel.Qualification_Master">
+              <MappingFragment StoreEntitySet="Qualification_Master">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Qualification" ColumnName="Qualification" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="RoleMaster">
             <EntityTypeMapping TypeName="EmployeeModel.RoleMaster">
               <MappingFragment StoreEntitySet="RoleMaster">
@@ -439,24 +627,6 @@
                 <ScalarProperty Name="State_Id" ColumnName="State_Id" />
                 <ScalarProperty Name="State_Name" ColumnName="State_Name" />
                 <ScalarProperty Name="Country_RefId" ColumnName="Country_RefId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="File_Upload">
-            <EntityTypeMapping TypeName="EmployeeModel.File_Upload">
-              <MappingFragment StoreEntitySet="File_Upload">
-                <ScalarProperty Name="File_Type" ColumnName="File_Type" />
-                <ScalarProperty Name="UserRefId" ColumnName="UserRefId" />
-                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
-                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
-                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
-                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-                <ScalarProperty Name="File_Path" ColumnName="File_Path" />
-                <ScalarProperty Name="File_size" ColumnName="File_size" />
-                <ScalarProperty Name="File_name" ColumnName="File_name" />
-                <ScalarProperty Name="UploadId" ColumnName="UploadId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

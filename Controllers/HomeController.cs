@@ -81,5 +81,21 @@ namespace Tech_Admin.Controllers
         {
             return View();
         }
+        [AllowAnonymous]
+        public ActionResult Phone()
+        {
+
+            return View();
+        }
+        [AllowAnonymous]
+        [HttpPost]
+        public ActionResult Phonenumber(Phone_Master ph)
+        {
+            emp.Phone_Master.Add(ph);
+            emp.SaveChanges();
+            return View();
+        }
+
+
     }
 }

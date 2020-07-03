@@ -14,6 +14,12 @@ namespace Tech_Admin.Models
     
     public partial class Employee_Master
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Employee_Master()
+        {
+            this.Qualification = new HashSet<Qualification>();
+        }
+    
         public int EmpId { get; set; }
         public string Name { get; set; }
         public System.DateTime Date_Of_Birth { get; set; }
@@ -36,5 +42,7 @@ namespace Tech_Admin.Models
         public virtual Country_Info Country_Info { get; set; }
         public virtual RoleMaster RoleMaster { get; set; }
         public virtual State_info State_info { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Qualification> Qualification { get; set; }
     }
 }

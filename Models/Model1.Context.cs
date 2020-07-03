@@ -28,8 +28,12 @@ namespace Tech_Admin.Models
         public virtual DbSet<City_Info> City_Info { get; set; }
         public virtual DbSet<Country_Info> Country_Info { get; set; }
         public virtual DbSet<Employee_Master> Employee_Master { get; set; }
+        public virtual DbSet<FileUpload> FileUpload { get; set; }
+        public virtual DbSet<MasterAdmin> MasterAdmin { get; set; }
+        public virtual DbSet<Phone_Master> Phone_Master { get; set; }
+        public virtual DbSet<Qualification> Qualification { get; set; }
+        public virtual DbSet<Qualification_Master> Qualification_Master { get; set; }
         public virtual DbSet<RoleMaster> RoleMaster { get; set; }
         public virtual DbSet<State_info> State_info { get; set; }
-        public virtual DbSet<File_Upload> File_Upload { get; set; }
     }
 }

@@ -12,19 +12,19 @@ namespace Tech_Admin.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class File_Upload
+    public partial class FileUpload
     {
         public System.Guid UploadId { get; set; }
         public string File_name { get; set; }
-        public long File_size { get; set; }
-        public string File_Path { get; set; }
+        public string File_type { get; set; }
+        public string File_size { get; set; }
+        public string File_path { get; set; }
         public Nullable<bool> IsActive { get; set; }
         public Nullable<bool> IsDelete { get; set; }
-        public System.Guid CreatedBy { get; set; }
-        public System.DateTime CreatedOn { get; set; }
         public Nullable<System.Guid> ModifiedBy { get; set; }
         public Nullable<System.DateTime> ModifiedOn { get; set; }
-        public Nullable<System.Guid> UserRefId { get; set; }
-        public string File_Type { get; set; }
+        public System.Guid CreatedBy { get; set; }
+        public System.DateTime CreatedOn { get; set; }
+        public System.Guid Userid { get; set; }
     }
 }
