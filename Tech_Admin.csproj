@@ -989,6 +989,7 @@
     <Content Include="Content\DevIcons\fonts\devicons.svg" />
     <Content Include="Content\Icons\css\materialdesignicons.css" />
     <Content Include="Content\Icons\css\materialdesignicons.min.css" />
+    <Content Include="Content\J4o.gif" />
     <Content Include="Content\JS\bootstrap-datetimepicker.min.js" />
     <Content Include="Content\JS\darkmode-js.min.js" />
     <Content Include="Content\JS\Jqgrid\grid.locale-en.js" />

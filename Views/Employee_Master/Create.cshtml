@@ -9,13 +9,13 @@
 
     .style1 {
         border: none;
-        height: 100vh;
+        height: 600px;
         font-family: monospace;
         /* display: block; */
         box-shadow: 10px 10px 10px 10px grey;
     }
     .col-lg-6 {
-        margin-top: 120px;
+        margin-top: 20px;
     }
     .spanclass {
         /* top: 10px; */
@@ -35,7 +35,7 @@
     }
 
     .form-group {
-        height: 70px;
+        height: 85px;
     }
     a.txt.glyphicon.glyphicon-save.glyphicon {
         font-size: 40px;
@@ -72,6 +72,16 @@
     div#loader img, .darkmode-ignore {
         background: transparent;
     }
+
+    input#btnCreate.darmode--activated {
+        background-color: orange;
+    }
+
+    button.btn.btn-default.reveal {
+        margin-top: -57px;
+        margin-left: 241px;
+        border: none;
+    }
 </style>
 
 
@@ -94,7 +104,8 @@
             <div class="form-group">
                 <label class="control-label col-md-4">Password</label>
                 <div class="col-md-10">
-                    <input type="password" class="form-control" id="TxtPassword" />
+                    <input type="password" class="form-control pwd" id="TxtPassword" />
+                    <button class="btn btn-default reveal" type="button"><i class="glyphicon glyphicon-eye-open"></i></button>
                 </div>
                 <div class="spanclass col-md-10">
                     <span id="lblPassword">&nbsp;</span>
@@ -104,7 +115,8 @@
             <div class="form-group">
                 <label class="control-label col-md-4">Confirm Password</label>
                 <div class="col-md-10">
-                    <input type="password" class="form-control" id="TxtCnfPassword" onchange="onchangeCnfpwd()" />
+                    <input type="password" class="form-control pwd" id="TxtCnfPassword" onchange="onchangeCnfpwd()" />
+                    <button class="btn btn-default reveal" type="button"><i class="glyphicon glyphicon-eye-open "></i></button>
                 </div>
                 <div class="spanclass col-md-10">
                     <span id="lblCnfPassword">&nbsp;</span>
@@ -206,7 +218,7 @@ htmlAttributes: new { @class = "form-control", @id = "State" })
 </div>
 <hr />
 <div class="form-group">
-    <div class="col-md-offset-2 col-md-10" style=" margin-top: 10px;">
+    <div class="col-md-offset-2 col-md-10" style=" margin-top: 15px; margin-left:300px">
         <input type="button" value="Create" class="btn btn-primary" id="btnCreate" @*onclick="BtnClick()"*@ style="width:500px; left:100px; position:relative;" />
     </div>
 </div>
@@ -264,7 +276,19 @@ htmlAttributes: new { @class = "form-control", @id = "State" })
 
     <script>
     $(document).ready(function () {
+        $(".reveal + .glyphicon").on('click', function () {
 
+
+            $(this).toggleClass('glyphicon-eye-close').toggleClass('glyphicon-eye-open'); // toggle our classes for the eye icon
+            $('#password').togglePassword();
+            //$(this).toggleClass('glyphicon-eye-close');
+            //var $pwd = $(".pwd");
+            //if ($pwd.attr('type') === 'password') {
+            //    $pwd.attr('type', 'text');
+            //} else {
+            //    $pwd.attr('type', 'password');
+            //}
+        });
 
         $("#TxtDob").datetimepicker({
             //format: 'DD-MM-YYYY'

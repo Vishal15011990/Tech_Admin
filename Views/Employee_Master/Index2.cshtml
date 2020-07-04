@@ -3,33 +3,115 @@
     ViewBag.Title = "Index2";
     Layout = "~/Views/Shared/_LayoutPage1.cshtml";
 }
+<style>
+/*Jq Grid*/
+
+    .ui-widget.ui-widget-content {
+        border: 1px solid grey;
+        box-shadow: 7px 1px 21px grey, -7px -5px 13px grey, 24px 4px 121px grey, 4px 2px 30px grey;
+    }
+
+    .ui-jqgrid.ui-jqgrid-bootstrap .ui-jqgrid-caption {
+        background-color: #e6f0ff;
+    }
+
+    .container2 {
+        box-shadow: 9px -11px 8px, -3px -6px 17px, 3px 7px 20px, 3px -11px 22px;
+        width: 1116px;
+        margin-left: 180px;
+        margin-top:20px;
+    }
+/*    .ui-jqgrid-view table-responsive .ui-jqgrid .ui-jqgrid-bdiv {
+        position: relative;
+        margin: 0;
+        padding: 0;
+        overflow: auto;
+        text-align: left;
+        z-index: 101;
+        height: 400px;
+    }*/
+    div#gbox_list2 {
+        background-color: gainsboro;
+        
+    }
+
+    .table-striped > tbody > tr:nth-of-type(odd) {
+        background-color: aqua;
+    }
+
+    .ui-jqgrid-hdiv {
+        background-color: floralwhite;
+    }
+
+    h2 {
+        margin-top: 100px;
+    }
+
+    div#editmodlist2 {
+        margin-top: -80px;
+        margin-left: 300px;
+    }
+    input#export {
+        margin-top: 40px;
+        margin-left: 200px;
+    }
+    h2.glyphicon.glyphicon-dashboard {
+        color: greenyellow;
+        font-size:3em;
+        
+    }
+    .bootsrap-datetimepicker-widget{
+        margin-left:100px;
+    }
+</style>
 
 
-<h2>Index2</h2>
-<div class="container">
+<h2 class="glyphicon glyphicon-dashboard">JQGrid</h2>
+<div class="container2">
     <table id="list2" class="table table-hover table-striped"></table>
     <div id="pager2"></div>
 
 </div>
+<input type="button" id="export" value="Export To excel" class="btn btn-warning" onclick="location.href='@Url.Action("ExportToExcel","Employee_Master")'" />
 
 <script>
+    $.jgrid.defaults.width = 1300;
+    $.jgrid.defaults.responsive = true;
+   $.jgrid.defaults.styleUI = 'Bootstrap';
+</script>
+
+<script>
+    var lastsel3;
         $("#list2").jqGrid({
             datatype: "json",
             url: '@Url.Action("GetData","Employee_Master")',
-            height: 150,
+            height: 280,
+            width: 1250,
             colModel:
                 [
-                    { label: 'Id', name: 'EmpId', index: 'EmpId', width: 150, hidden: true },
-                    { label: 'Name', name: 'Name', index: 'Name', width: 150, editable: true, sortable: true, sorttype: 'text'  },
+                    {
+                        label: 'Action', name: 'myac', width: 80, fixed: true, sortable: false, resize: false, formatter: 'actions',
+                        formatoptions: { keys: true }
+                    },
+
+                    { label: 'Id', name: 'EmpId', index: 'EmpId', width: 150, hidden: false },
+                    { label: 'Name', name: 'Name', index: 'Name', width: 150, editable: false },
                     {
                         label: 'Dob', name: 'Date_Of_Birth', index: 'Date_Of_Birth', width: 150,
+                        exportoptions: { excel_parsers: false, excel_format: 'yyyy/dd/mm' },
                         formatter: 'date', formatoptions: { newformat: 'd-M-Y' },
-                        datefmt: 'd-M-Y', sorttype: 'date', align: 'center', editable: true
+                        datefmt: 'd-M-Y', sorttype: 'date', align: 'center',
+                        editable: true,
+                        editoptions: {
+                            dataInit: function (el) {
+                                $(el).datetimepicker({ });
+                            }
+                        }
                     },
-                    { label: 'Phone', name: 'Phone', index: 'Phone', width: 150, sortable: true, editable: true },
-                    { label: 'Address', name: 'Address', index: 'Address', width: 150, sortable: true, editable: false },
+                    { label: 'Phone', name: 'Phone', index: 'Phone', width: 150, editable: true },
+                    { label: 'Address', name: 'Address', index: 'Address', width: 150, editable: false },
                     {
-                        label: 'Country', name: 'Country', index: 'Country', edittype: 'select', sortable: true,
+                        label: 'Country', name: 'Country', index: 'Country', edittype: 'select',
                         editoptions: {
                             value: GetCountry()
                             //dataEvents: [{
@@ -41,7 +123,7 @@
                         formatter: 'select',
                     },
                     {
-                        label: 'State', name: 'State', index: 'State', width: 150, sortable: true, editable:true, edittype: 'select',
+                        label: 'State', name: 'State', index: 'State', width: 150, editable: true, edittype: 'select',
                         editoptions: {
                             value: GetState()
                         },
@@ -49,62 +131,110 @@
 
                     },
                     {
-                        label: 'City', name: 'City', index: 'City', width: 150, sortable: true, editable: true, edittype: 'select',
+                        label: 'City', name: 'City', index: 'City', width: 150, editable: true, edittype: 'select',
                         editoptions:
                         {
                             value: GetCity()
                         },
-                        formatter:'select'
+                        formatter: 'select'
                     },
-                    { label: 'EmailId', name: 'EmailId', index: 'EmailId', width: 150, sortable: true, editable: true },
+                    { label: 'EmailId', name: 'EmailId', index: 'EmailId', width: 150, editable: false },
                 ],
+            loadonce: true,
             rowNum: 10,
+            viewrecords: true,
             rowList: [10, 20, 30],
             pager: '#pager2',
+            sortable: true,
             sortname: 'Name',
-            viewrecords: true,
-            sortorder: "desc",
+            sortorder: "asc",
             grouping: true,
             groupingView: {
                 groupField: ['EmpId'],
                 groupColumnShow: [false],
                 groupText: ['<b> ID: {0} </b>'],
-                grouporder: 'desc',
+                grouporder: "asc",
                 groupCollapse: false
             },
             caption: "Employee Detail"
         });
-        jQuery("#list2").jqGrid('navGrid', '#pager2', { edit: true, add: true, del: true });
+    jQuery("#list2").jqGrid("navGrid");@*, { edit: true, add: true, del: true, search: true, refresh: true },
+            {
+                url: '@Url.Action("Edit","Employee_Master")',
+                closeAfterEdit: true,
 
-
-    function countrychange() {
-        var country = $(this).val();
-        $.ajax({
-            type: "POST",
-            url: '@Url.Action("GetState","Employee_Master")',
-            data: { 'Cid': country },
-            success: function (data) {
-                var state = $("#State");
-                state.empty();
-                state.append($('<option/>', {
-                    Value: 0,
-                    Text:"--Select State---"
-                }));
-                $.each(data, function (index, item) {
-                    state.append($('<option/>', {
-                        Value: item.Value,
-                        Text: item.Text
-                    }));
-                });
+            },
+            {
+                url: '@Url.Action("Create","Employee_Master")',
+                closeAfterAdd: true,
+            },
+            {
+                url: '@Url.Action("Delete","Employee_Master")',
+                closeAfterDelete: true
             }
-        });
-    }
+        ).navButtonAdd("#pager2", {
+            caption: "",
+            Title: "Export To Excel",
+            onClickButton: function () {
+                debugger
+                var filename = "jqGrid.xlsx";
+                var data = jQuery(this).jqGrid("getGridParam", 'lastpage'), i, item,
+                    dataAsArray = [
+                        ["EmpId", "Name", "Date_Of_Birth", "Phone", "Country", "State", "City", "EmailId"]
+                    ];
+                debugger
+                for (i = 0; i < data.length; i++) {
+                    item = data[i];
+                    dataAsArray.push([
+                        item.Name,
+                        new Date(item.Date_Of_Birth),
+                        item.Phone, item.Country, item.State,
+                        item.City, item.EmailId]);
+                }
+                debugger
+                var ws_name = "SheetJS";
+                var wb = XLSX.utils.book_new();
+                debugger
+                var ws = XLSX.utils.aoa_to_sheet(dataAsArray);
+                XLSX.utils.book_append_sheet(wb, ws, ws_name);
+                XLSX.writeFile(wb, filename);
+            }
+        });*@
+
+    //function pickdates(id) {
+    //    debugger
+    //    jQuery("#" + id + "Date_Of_Birth", "#list2").datepicker({ dateFormat: "yy-mm-dd" });
+    //}
+
+
+        function countrychange() {
+            var country = $(this).val();
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("GetState","Employee_Master")',
+                data: { 'Cid': country },
+                success: function (data) {
+                    var state = $("#State");
+                    state.empty();
+                    state.append($('<option/>', {
+                        Value: 0,
+                        Text: "--Select State---"
+                    }));
+                    $.each(data, function (index, item) {
+                        state.append($('<option/>', {
+                            Value: item.Value,
+                            Text: item.Text
+                        }));
+                    });
+                }
+            });
+        }
 
 
 
 
-     function GetCountry() {
-         var Countrylist = {};
+        function GetCountry() {
+            var Countrylist = {};
             $.ajax({
                 type: "POST",
                 url: '@Url.Action("GetCountry","Employee_Master")',
@@ -114,7 +244,7 @@
                 success: function (data) {
 
                     for (var i = 0; i < data.length; i++) {
-                        
+
                         var obj = {};
                         var Name = data[i].Country_name;
                         var key = "" + data[i].Country_Id;
@@ -122,51 +252,63 @@
                     }
                 }
             });
-         return Countrylist;
+            return Countrylist;
         }
 
-    function GetState() {
-        
-        var Statelist = {};
-        $.ajax({
-            type: "POST",
-            url: '@Url.Action("GetState2","Employee_Master")',
-            async: false,
-            contentType: "application/json; charset=utf-8",
-       
-            success: function (data) {
-                
-                for (var i = 0; i < data.length; i++) {
-                    
-                    var obj = {};
-                    var Name = data[i].State_Name;
-                    var key = data[i].State_Id;
-                    Statelist[key] = Name;
+        function GetState() {
+
+            var Statelist = {};
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("GetState2","Employee_Master")',
+                async: false,
+                contentType: "application/json; charset=utf-8",
+
+                success: function (data) {
+
+                    for (var i = 0; i < data.length; i++) {
+
+                        var obj = {};
+                        var Name = data[i].State_Name;
+                        var key = data[i].State_Id;
+                        Statelist[key] = Name;
+                    }
                 }
-            }
-        });
-        return Statelist;
-    }
+            });
+            return Statelist;
+        }
 
 
-    function GetCity() {
+        function GetCity() {
 
-        var Citylist = {};
-        $.ajax({
-            type: "POST",
-            url: '@Url.Action("GetCity2","Employee_Master")',
-            async: false,
-            contentType: "application/json; charset=utf-8",
-            success: function (data) {
-                for (var i = 0; i < data.length; i++) {
-                    var obj = {};
-                    var Name = data[i].City_Name;
-                    var key = data[i].City_Id;
-                    Citylist[key] = Name;
+            var Citylist = {};
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("GetCity2","Employee_Master")',
+                async: false,
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    for (var i = 0; i < data.length; i++) {
+                        var obj = {};
+                        var Name = data[i].City_Name;
+                        var key = data[i].City_Id;
+                        Citylist[key] = Name;
+                    }
                 }
-            }
+            });
+            return Citylist;
+        }
+
+
+    $("#export").on("click", function () {
+        debugger
+            $("#list2").jqGrid("exportToExcel", {
+                includeLabels: true,
+                includeGroupHeader: true,
+                includeFooter: true,
+                fileName: "jqGridExport.xlsx",
+                maxlength: 40 // maxlength for visible string data
+            });
         });
-        return Citylist;
-    }
 
 </script>

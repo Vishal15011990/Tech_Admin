@@ -47,7 +47,7 @@
         }
 
     .form-group {
-        height: 70px;
+        height: 80px;
         margin-top:30px;
     }
 
@@ -90,12 +90,18 @@
         background: transparent;
     }
 
+    button.btn.btn-default.reveal {
+        margin-top: -57px;
+        margin-left: 241px;
+        border: none;
+    }
+
 </style>
 
 <div style="padding:1px;">
     <span class=" fa fa-user fa-10x"></span>
     <div class="row-lg-12">
-        <div class="col-lg-6">
+        <div class="col-lg-8">
             <div class="form-group ">
                 <label class="control-label col-md-4">Name</label>
                 <div class="col-md-10">
@@ -109,10 +115,12 @@
             <div class="form-group">
                 <label class="control-label col-md-4">Password</label>
                 <div class="col-md-10">
-                    <input type="password" class="form-control" id="TxtPassword" />
+                    <input type="password" class="form-control pwd" id="TxtPassword" />
+                    <button class="btn btn-default reveal" type="button"><i class="glyphicon glyphicon-eye-open"></i></button>
                 </div>
                 <div class="spanclass col-md-10">
                     <span id="lblPassword">&nbsp;</span>
+                    
                 </div>
             </div>
         </div>
@@ -140,7 +148,18 @@
 
     <script>
 
-    $(document).ready(function () {
+        $(document).ready(function () {
+            $(".reveal").on('click', function () {
+                var $pwd = $(".pwd");
+                if ($pwd.attr('type') === 'password') {
+                    $pwd.attr('type', 'text');
+                } else {
+                    $pwd.attr('type', 'password');
+                }
+            });
+
+
+
         $(document).ajaxStart(function () {
             $("#loader").css("display", "block");
         });

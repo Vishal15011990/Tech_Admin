@@ -4,17 +4,93 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>@ViewBag.Title</title>
-
+    <link href="~/Content/Site.css" rel="stylesheet" />
 
     <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <script src="~/Scripts/bootstrap.min.js"></script>
+
+
+
     <link href="~/Content/JS/Jqgrid/jquery-ui.min.css" rel="stylesheet" />
     <link href="~/Content/JS/Jqgrid/ui.jqgrid.css" rel="stylesheet" />
     <script src="~/Content/JS/Jqgrid/grid.locale-en.js"></script>
     <script src="~/Content/JS/Jqgrid/jquery.jqGrid.js"></script>
+
+
+
+
+    <script src="~/Content/JS/moment.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <link href="~/Content/Css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+    <script src="~/Content/JS/bootstrap-datetimepicker.min.js"></script>
+
+
 </head>
 <body>
+    <div id="navbar" class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <img src="~/Content/J4o.gif" class="navbar-brand img-responsive img-rounded " style="margin-top:0px; width:140px; height:100px; background:transparent;border-radius:5px; border:none" />
+                @*@Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })*@
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li><a> Welcome - @User.Identity.Name </a></li>
+                        <li> @Html.ActionLink("Log out", "Logout", "Home") </li>
+                        if (User.IsInRole("Admin"))
+                        {
+                            @*<li>
+                                    <a href="@Url.Action("Index","Employee_Master")" class="navbar-brand">
+                                        <img src="~/Content/Img/logo.png" alt="No Img" style="height:50px; width:50px;" />
+                                    </a>
+                                </li>*@
+                            <li> @Html.ActionLink("Create Role", "Role", "Home") </li>
+                            <li></li>
+                            <li> @Html.ActionLink("Create", "Create", "Employee_Master") </li>
+                            <li></li>
+                            <li> @Html.ActionLink("Show Record", "Index", "Employee_Master") </li>
+                            <li></li>
+                            <li> @Html.ActionLink("File Upload", "FileUpload", "Employee_Master") </li>
+
+                        }
+                        else if (User.IsInRole("User"))
+                        {
+                            <li></li>
+                            <li> @Html.ActionLink("File Upload", "FileUpload", "Employee_Master") </li>
+                        }
+                    }
+                    else
+                    {
+                        <li>
+                            <a>
+                                @Html.ActionLink("Log In", "Login", "Home")
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
     <div>
         @RenderBody()
     </div>
+
+    <script src="~/Content/JS/darkmode-js.min.js"></script>
+    <script>
+        new Darkmode({
+            bottom: '32px',
+            right: '32px',
+            time: '0.3s',
+            label: '🌓'
+        }).showWidget();
+    </script>
 </body>
 </html>

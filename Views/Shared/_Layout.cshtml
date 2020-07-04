@@ -12,6 +12,9 @@
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
     <script src="~/Scripts/bootstrap.min.js"></script>
 
+
+
+
     <script src="~/Scripts/jquery.validate.min.js"></script>
     <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
     @*@Scripts.Render("~/bundles/modernizr")*@
@@ -37,8 +40,15 @@
 
     <script src="~/Content/JS/sweetalert.min.js"></script>
 
-
     <style>
+
+
+        /*#map {
+            height: 400px;
+            width: 1000px;
+            margin-top: 469px;
+        }*/
+
         body.darkmode--activated {
             color: darkorange;
         }
@@ -46,10 +56,30 @@
             body.darkmode--activated span {
                 color: lightseagreen;
             }
+
+        /*        .navbar.navbar-inverse.navbar-fixed-top {
+            opacity: 0.6;
+        }*/
     </style>
+
+
+    <script>
+        var prevScrollpos = window.pageYOffset;
+        window.onscroll = function () {
+            var currentScrollPos = window.pageYOffset;
+            if (prevScrollpos > currentScrollPos) {
+                document.getElementById("navbar").style.top = "0";
+            } else {
+                document.getElementById("navbar").style.top = "-150px";
+            }
+            prevScrollpos = currentScrollPos;
+        }
+    </script>
+
+
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
+    <div id="navbar" class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -57,7 +87,8 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                <img src="~/Content/J4o.gif" class="navbar-brand img-responsive img-rounded " style="margin-top:0px; width:140px; height:100px; background:transparent;border-radius:5px; border:none" />
+                @*@Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })*@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
@@ -68,10 +99,10 @@
                         if (User.IsInRole("Admin"))
                         {
                             @*<li>
-                    <a href="@Url.Action("Index","Employee_Master")" class="navbar-brand">
-                        <img src="~/Content/Img/logo.png" alt="No Img" style="height:50px; width:50px;" />
-                    </a>
-                </li>*@
+                                    <a href="@Url.Action("Index","Employee_Master")" class="navbar-brand">
+                                        <img src="~/Content/Img/logo.png" alt="No Img" style="height:50px; width:50px;" />
+                                    </a>
+                                </li>*@
                             <li> @Html.ActionLink("Create Role", "Role", "Home") </li>
                             <li></li>
                             <li> @Html.ActionLink("Create", "Create", "Employee_Master") </li>
@@ -104,6 +135,27 @@
         <hr />
         <footer>
             <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+            @*<div id="map"></div>
+                <script>
+                    (function (exports) {
+                        "use strict";
+
+                        function initMap() {
+                            exports.map = new google.maps.Map(document.getElementById("map"), {
+                                center: {
+                                    lat: 12.976750,
+                                    lng: 77.575279
+                                },
+                                zoom: 8
+                            });
+                        }
+
+                        exports.initMap = initMap;
+                    })((this.window = this.window || {}));
+                </script>
+                <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+                <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBni3ZclGCFnwQXR6CKpet6JWKJF-E4V2A&callback=initMap&libraries=&v=weekly" defer></script>*@
+
         </footer>
     </div>
 
@@ -116,5 +168,6 @@
             label: '🌓'
         }).showWidget();
     </script>
+
 </body>
 </html>
