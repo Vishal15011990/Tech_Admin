@@ -427,10 +427,7 @@ namespace Tech_Admin.Controllers
 
 
 
-
-
-
-        #region download
+        #region Download Excel
         public ActionResult ExportToExcel()
         {
             List<Employee_Master> emplist = new List<Employee_Master>();

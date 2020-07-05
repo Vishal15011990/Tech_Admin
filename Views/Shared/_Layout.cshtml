@@ -48,7 +48,14 @@
             width: 1000px;
             margin-top: 469px;
         }*/
-
+        li:hover {
+            display: block;
+            border: 5px;
+            background-color: red;
+            border-radius: 5px;
+            opacity: 0.5;
+            -webkit-box-reflect: below;
+        }
         body.darkmode--activated {
             color: darkorange;
         }
@@ -122,7 +129,7 @@
                     {
                         <li>
                             <a>
-                                @Html.ActionLink("Log In", "Login", "Home")
+                                @Html.ActionLink("TECH ADMIN", "Login", "Home")
                             </a>
                         </li>
                     }

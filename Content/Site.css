@@ -1,4 +1,12 @@
-﻿body {
+﻿#navbar {
+    background-image: url('J4o.gif');
+    background-repeat: repeat;
+    background-size: cover;
+    color: red;
+    width: 100%;
+    box-shadow: 3px 15px 45px;
+}
+body {
     padding-top: 50px;
     padding-bottom: 20px;
 }
@@ -7,6 +15,7 @@
 .body-content {
     padding-left: 15px;
     padding-right: 15px;
+
 }
 
 /* Override the default bootstrap behavior where horizontal description lists 
